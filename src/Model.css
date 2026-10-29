@@ -1,0 +1,52 @@
+/* Body fix jab modal open ho (Optional: React mein class toggle karni hogi) */
+.modal-open {
+    overflow: hidden;
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw; /* Viewport width */
+    height: 100vh; /* Viewport height */
+    background: rgba(0, 0, 0, 0.7); /* Background thoda aur dark */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 99999; /* Isse Sidebar ke upar ayega */
+    backdrop-filter: blur(3px); /* Background thoda blur ho jayega professional look k liye */
+}
+
+.modal-box {
+    background: #ffffff;
+    padding: 40px 25px 25px 25px; /* Top padding zyada rakhi hai taake X button adjust ho sake */
+    border-radius: 8px;
+    position: relative;
+    width: 60%; /* Ya fixed width like 600px */
+    max-width: 90%;
+    max-height: 90vh; /* Screen se bahar na nikal jaye */
+    overflow-y: auto; /* Agar form lamba hai toh box ke andar scroll ayega */
+    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+}
+
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    background: #dc3545; /* Red color */
+    color: white;
+    border: none;
+    font-size: 20px;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100000; /* Sabse upar */
+}
+
+.close-btn:hover {
+    background: #a71d2a;
+}

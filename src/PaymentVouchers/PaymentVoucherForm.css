@@ -1,0 +1,261 @@
+/* ==========================================================================
+   Payment Voucher Forms — compact charcoal ERP layout
+   Scope: .voucher-form-page (JV / CPV-CRV / BPV-BRV)
+   ========================================================================== */
+
+.voucher-form-page .rm-content-container {
+  max-width: 1400px;
+}
+
+.voucher-form-page .rm-main-card {
+  padding: 14px;
+}
+
+.voucher-form-page .info-grid {
+  margin-bottom: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.voucher-form-page .info-grid.voucher-info-4 {
+  grid-template-columns: repeat(4, minmax(140px, 1fr));
+}
+
+.voucher-form-page .info-grid.voucher-info-3 {
+  grid-template-columns: repeat(3, minmax(160px, 1fr));
+}
+
+.voucher-form-page .rm-main-card input:focus,
+.voucher-form-page .rm-main-card select:focus {
+  border-color: #0f172a !important;
+  box-shadow: 0 0 0 2px rgba(15, 23, 42, 0.12) !important;
+}
+
+.voucher-form-page .react-select__control--is-focused {
+  border-color: #0f172a !important;
+  box-shadow: 0 0 0 2px rgba(15, 23, 42, 0.12) !important;
+}
+
+.voucher-form-page .react-select__option--is-focused {
+  background: #f1f5f9 !important;
+  color: #0f172a !important;
+}
+
+.voucher-form-page .react-select__option--is-selected {
+  background: #0f172a !important;
+  color: #fff !important;
+}
+
+/* Portal menu — escape table overflow; no tiny clipped scrollbar */
+.voucher-form-page .voucher-table-wrapper {
+  margin-top: 12px;
+  width: 100%;
+  overflow: visible;
+}
+
+.react-select__menu.voucher-select-menu,
+.voucher-select-menu {
+  z-index: 9999 !important;
+  border: 1px solid #e2e8f0 !important;
+  border-radius: 6px !important;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.12) !important;
+  overflow: visible !important;
+}
+
+.react-select__menu-list.voucher-select-menu-list,
+.voucher-select-menu-list {
+  max-height: 280px !important;
+  padding: 4px 0 !important;
+  overflow-y: auto !important;
+}
+
+/* Few options: hide scrollbar chrome when content fits */
+.react-select__menu-list.voucher-select-menu-list:not(:hover)::-webkit-scrollbar {
+  width: 6px;
+}
+
+.erp-voucher-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+
+.erp-voucher-table thead th {
+  background: #f8fafc;
+  color: #0f172a;
+  font-weight: 600;
+  font-size: 12px;
+  text-align: left;
+  padding: 8px 10px;
+  border-bottom: 1px solid #e2e8f0;
+  white-space: nowrap;
+}
+
+.erp-voucher-table tbody td {
+  padding: 6px 8px;
+  vertical-align: middle;
+  border-bottom: 1px solid #f1f5f9;
+  background: #fff;
+}
+
+.erp-voucher-table tbody tr.voucher-group-divider td {
+  border-bottom: 2px solid #e2e8f0;
+  background: #fafbfc;
+}
+
+.erp-voucher-table .type-credit {
+  background: #fef2f2 !important;
+  color: #b91c1c !important;
+  font-weight: 700;
+  border: 1px solid #fecaca !important;
+  text-align: center;
+}
+
+.erp-voucher-table .type-debit {
+  background: #f1f5f9 !important;
+  color: #0f172a !important;
+  font-weight: 700;
+  border: 1px solid #cbd5e1 !important;
+  text-align: center;
+}
+
+.voucher-actions-cell {
+  text-align: center;
+  border-left: 1px solid #e2e8f0 !important;
+  background: #f8fafc !important;
+  vertical-align: middle !important;
+}
+
+.voucher-actions-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+}
+
+.voucher-actions-row {
+  display: inline-flex;
+  gap: 6px;
+  align-items: center;
+  justify-content: center;
+}
+
+.voucher-icon-btn {
+  width: 32px;
+  height: 32px;
+  min-width: 32px;
+  border-radius: 6px;
+  border: 1px solid #cbd5e1;
+  background: #fff;
+  color: #334155;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+.voucher-icon-btn:hover {
+  background: #0f172a;
+  color: #fff;
+  border-color: #0f172a;
+}
+
+.voucher-icon-btn.is-danger {
+  color: #b91c1c;
+  border-color: #fecaca;
+  background: #fff;
+}
+
+.voucher-icon-btn.is-danger:hover {
+  background: #b91c1c;
+  color: #fff;
+  border-color: #b91c1c;
+}
+
+.voucher-remarks-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.voucher-remarks-label {
+  font-size: 11px;
+  color: #64748b;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.voucher-form-page .voucher-summary {
+  margin-top: 14px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 12px 14px;
+  max-width: 360px;
+  margin-left: auto;
+}
+
+.voucher-form-page .voucher-summary-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin: 4px 0;
+  font-size: 13px;
+  color: #334155;
+}
+
+.voucher-form-page .voucher-summary-row.is-ok {
+  color: #15803d;
+}
+
+.voucher-form-page .voucher-summary-row.is-bad {
+  color: #b91c1c;
+}
+
+.voucher-form-page .voucher-summary-total {
+  margin-top: 14px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 12px 14px;
+  text-align: right;
+  font-size: 13px;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.voucher-form-page .voucher-summary-total span {
+  color: #0f172a;
+  font-weight: 700;
+}
+
+.voucher-form-page .save-btn,
+.voucher-form-page .voucher-submit-btn {
+  /* Keep Transactions.css green save styling */
+  margin-top: 14px;
+}
+
+.voucher-loading {
+  padding: 48px 16px;
+  text-align: center;
+  color: #64748b;
+  font-size: 14px;
+}
+
+@media (max-width: 1024px) {
+  .voucher-form-page .info-grid.voucher-info-4,
+  .voucher-form-page .info-grid.voucher-info-3 {
+    grid-template-columns: repeat(2, minmax(140px, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .voucher-form-page .info-grid.voucher-info-4,
+  .voucher-form-page .info-grid.voucher-info-3 {
+    grid-template-columns: 1fr;
+  }
+}

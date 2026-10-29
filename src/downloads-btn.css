@@ -1,0 +1,21 @@
+.download-button {
+  width: 40px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 6px;
+  color: white;
+  cursor: pointer;
+  font-size: 18px;
+  transition: transform 0.2s;
+}
+
+.download-button:hover {
+  transform: translateY(-2px);
+}
+
+.bg-pdf { background-color: #c62828; }
+.bg-excel { background-color: #2e7d32; }
+.bg-png { background-color: #ef6c00; }

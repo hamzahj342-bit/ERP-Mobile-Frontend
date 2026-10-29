@@ -1,0 +1,438 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;&display=swap');
+
+/* ==========================================================================
+   CORE PLATFORM RESETS & FIXES
+   ========================================================================== */
+* { 
+    box-sizing: border-box; 
+    margin: 0; 
+    padding: 0; 
+}
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    background-color: #f8fafc;
+    overflow-x: hidden;
+}
+
+/* Authenticated app pages — offset handled in Bar.css via body.erp-has-nav */
+body.erp-has-nav .rm-page,
+body.erp-has-nav .card,
+body.erp-has-nav .container {
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+/* Base Utility Classes */
+.max-w-450 { max-width: 450px; }
+.max-w-400 { max-width: 400px; }
+.fs-7 { font-size: 0.75rem; }
+.uppercase-text { text-transform: uppercase; }
+
+/* Slide Animations */
+.animate-slide-left { animation: slideInLeft 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+.animate-slide-right { animation: slideInRight 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+
+@keyframes slideInLeft {
+    from { opacity: 0; transform: translateX(20px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slideInRight {
+    from { opacity: 0; transform: translateX(-20px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+/* ==========================================================================
+   PREMIUM ENTERPRISE STRUCTURE (100% SCREEN VIEW PERFECTED)
+   ========================================================================== */
+
+/* Outer wrapper viewport control standard height compression */
+body:has(.login-wrapper) {
+    padding-left: 0 !important;
+    padding-top: 0 !important;
+    overflow: hidden;
+}
+
+.login-wrapper.premium-layout {
+    display: flex;
+    width: 100%;
+    max-width: 100%;
+    height: 100vh;
+    min-height: 100vh;
+    max-height: 100vh;
+    overflow: hidden;
+    background-color: #f8fafc;
+}
+
+/* Left hero — mobile shop */
+.image-section.premium-erp-panel {
+    flex: 1.2;
+    background:
+        radial-gradient(900px 500px at 10% 20%, rgba(15, 118, 110, 0.35), transparent 55%),
+        radial-gradient(800px 480px at 90% 80%, rgba(2, 132, 199, 0.28), transparent 50%),
+        linear-gradient(145deg, #020617 0%, #0f172a 48%, #042f2e 100%) !important;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    box-shadow: inset -20px 0 40px rgba(0,0,0,0.3);
+}
+
+.erp-mesh-grid-premium {
+    position: absolute;
+    inset: 0;
+    opacity: 0.05;
+    background-image: linear-gradient(#2dd4bf 1px, transparent 1px), linear-gradient(90deg, #38bdf8 1px, transparent 1px);
+    background-size: 28px 28px;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.glowing-orb-1 {
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(45, 212, 191, 0.22) 0%, rgba(45, 212, 191, 0) 70%);
+    top: 15%; left: 10%;
+    z-index: 1;
+    filter: blur(40px);
+}
+.glowing-orb-2 {
+    position: absolute;
+    width: 350px;
+    height: 350px;
+    background: radial-gradient(circle, rgba(14, 165, 233, 0.18) 0%, rgba(14, 165, 233, 0) 70%);
+    bottom: 5%; right: 10%;
+    z-index: 1;
+    filter: blur(50px);
+}
+
+.text-gradient-premium {
+    background: linear-gradient(to right, #ffffff 25%, #99f6e4 65%, #38bdf8 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 900 !important;
+}
+
+.login-hero-title {
+    font-family: 'Outfit', 'DM Sans', system-ui, sans-serif;
+    letter-spacing: -0.03em;
+    background: linear-gradient(120deg, #ffffff 20%, #99f6e4 55%, #7dd3fc 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.login-brand-mark {
+    width: 64px;
+    height: 64px;
+    margin: 0 auto 1rem;
+    border-radius: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.6rem;
+    color: #ecfeff;
+    background: linear-gradient(145deg, #0f766e, #0284c7);
+    box-shadow: 0 12px 30px rgba(15, 118, 110, 0.35);
+}
+
+.login-pill-badge {
+    display: inline-flex;
+    align-items: center;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #99f6e4;
+    background: rgba(15, 118, 110, 0.25);
+    border: 1px solid rgba(45, 212, 191, 0.35);
+    padding: 0.45rem 0.95rem;
+    border-radius: 999px;
+}
+
+.login-feature-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    max-width: 420px;
+    margin: 0 auto;
+}
+
+.login-feature-row span {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: #cbd5e1;
+    background: rgba(15, 23, 42, 0.45);
+    border: 1px solid rgba(148, 163, 184, 0.25);
+    padding: 6px 12px;
+    border-radius: 999px;
+}
+
+.text-muted-premium {
+    color: #94a3b8 !important;
+    letter-spacing: 0.05rem;
+}
+
+/* Analytics Chart Mockup Component */
+.premium-chart-mock {
+    height: 100px; /* Reduced to match strict layout bounds */
+    opacity: 0.5;
+    border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+    padding-bottom: 5px;
+}
+.transition-bar-premium {
+    width: 8px;
+    transform-origin: bottom;
+    animation: premiumBarScale 4s infinite cubic-bezier(0.4, 0, 0.2, 1) alternate;
+}
+.h-40 { height: 35px; animation-delay: 0.1s; }
+.h-60 { height: 55px; animation-delay: 0.6s; }
+.h-75 { height: 70px; animation-delay: 0.3s; }
+.h-90 { height: 85px; animation-delay: 0.8s; }
+.h-110 { height: 105px; animation-delay: 0.4s; }
+
+@keyframes premiumBarScale {
+    0% { transform: scaleY(0.9); }
+    100% { transform: scaleY(1.1); }
+}
+
+.rotating-icon { animation: spinIcon 12s linear infinite; }
+@keyframes spinIcon { 100% { transform: rotate(30deg); } }
+
+/* ==========================================================================
+   RIGHT SIDE WORKSPACE (FORM WORKSPACE INTEGRITY)
+   ========================================================================== */
+.login-container.premium-form-container {
+    flex: 1;
+    height: 100%;
+    background: #fdfdfd;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    overflow-y: auto; /* Internal scroll only triggers if device height is super low */
+}
+
+/* Sizing Compactness Override (Stops bloated scaling on 100%) */
+.premium-box {
+    background: #ffffff !important;
+    border: 1px solid rgba(226, 232, 240, 0.8) !important;
+    border-radius: 16px !important;
+    padding: 2rem 2.2rem !important; /* Scaled down padding from 3.2rem */
+    max-width: 410px; /* Locked standard width */
+    width: 100%;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.02) !important;
+}
+
+.company-name-premium {
+    font-family: 'Outfit', 'DM Sans', system-ui, sans-serif;
+    font-size: 1.55rem !important;
+    font-weight: 800 !important;
+    margin-bottom: 4px;
+    display: inline-block;
+    background: linear-gradient(90deg, #0f172a 15%, #0f766e 55%, #0284c7 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.form-subtitle-premium {
+    font-size: 0.82rem;
+    color: #64748b;
+    text-transform: none;
+    letter-spacing: 0.01rem;
+    font-weight: 500;
+}
+
+.view-header-badge {
+    text-align: center;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06rem;
+    color: #0f766e;
+    background: #ccfbf1;
+    padding: 5px 12px;
+    border-radius: 6px;
+    font-weight: 700;
+}
+
+/* Premium Engineered Input Overrides */
+.premium-input {
+    position: relative;
+    margin-bottom: 15px !important; /* Compact distance spacing */
+}
+
+.premium-input input, 
+.premium-input select.company-select-field {
+    width: 100%;
+    height: 48px !important; /* Precise input height bounds */
+    padding: 10px 16px 10px 46px !important;
+    font-size: 0.9rem !important;
+    background: #f8fafc !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 10px !important;
+    color: #0f172a !important;
+    outline: none !important;
+    transition: all 0.2s ease-in-out !important;
+}
+
+.premium-input input:focus, 
+.premium-input select.company-select-field:focus {
+    background: #ffffff !important;
+    border-color: #0f766e !important;
+    box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.12) !important;
+}
+
+/* Custom select element configuration fallback overrides */
+select.company-select-field {
+    appearance: none !important;
+    -webkit-appearance: none !important;
+    -moz-appearance: none !important;
+    cursor: pointer;
+}
+
+.icon-premium {
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #94a3b8;
+    font-size: 1rem;
+    pointer-events: none;
+    z-index: 5;
+    transition: color 0.2s;
+}
+
+.premium-input input:focus ~ .icon-premium,
+.premium-input select:focus ~ .icon-premium {
+    color: #0f766e;
+}
+
+.password-toggle-premium {
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #94a3b8;
+    z-index: 10;
+    font-size: 0.95rem;
+}
+.password-toggle-premium:hover { color: #475569; }
+
+/* Control Options Area */
+.premium-options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 12px !important;
+    margin-bottom: 18px !important;
+}
+
+.forgot-link-premium {
+    font-size: 0.8rem;
+    color: #64748b;
+    cursor: pointer;
+    font-weight: 500;
+    transition: color 0.15s;
+}
+.forgot-link-premium:hover { color: #0f766e; }
+
+/* Action CTA */
+.premium-btn {
+    width: 100%;
+    height: 48px !important;
+    background: linear-gradient(to right, #0f766e, #0e7490) !important;
+    border: none !important;
+    border-radius: 10px !important;
+    color: #ffffff !important;
+    font-size: 0.9rem !important;
+    box-shadow: 0 4px 14px rgba(15, 118, 110, 0.25) !important;
+    transition: all 0.2s ease !important;
+}
+.premium-btn:hover {
+    transform: translateY(-0.5px);
+    box-shadow: 0 6px 18px rgba(15, 118, 110, 0.32) !important;
+    background: linear-gradient(to right, #0d9488, #0284c7) !important;
+}
+
+.back-arrow-premium {
+    font-size: 0.82rem;
+    color: #64748b;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 500;
+}
+.back-arrow-premium:hover { color: #0f172a; }
+.step-info-premium { font-size: 0.82rem; color: #64748b; }
+.otp-center-premium { font-size: 1.25rem !important; font-weight: 700 !important; letter-spacing: 6px !important; color: #0f766e !important; }
+
+/* Corporate Footnote */
+.codebase-branding {
+    margin-top: 2rem !important;
+    padding-top: 1rem !important;
+    border-top: 1px solid #f1f5f9 !important;
+}
+.dynamic-footer-text {
+    font-size: 0.68rem;
+    letter-spacing: 0.12rem;
+    color: #94a3b8 !important;
+}
+.text-gradient-codebase {
+    background: linear-gradient(135deg, #0f766e 0%, #0284c7 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 700;
+}
+
+.company-logo-premium{
+    width: 100px;
+    height: auto;
+    margin-bottom: 1.5rem;
+}
+/* ==========================================================================
+   ADVANCED MOBILE COMPATIBILITY BREAKPOINTS
+   ========================================================================== */
+
+@media (max-width: 1024px) {
+    /* Safe-scaling scaling adjustments for medium displays/tablets */
+    .image-section.premium-erp-panel { flex: 1; }
+    .premium-box { padding: 2rem !important; }
+}
+
+@media (max-width: 768px) {
+    /* Mobile core layout shift logic */
+    .login-wrapper.premium-layout {
+        flex-direction: column;
+        overflow-y: auto; /* Natural mobile scroll capability allowed */
+        max-height: none;
+    }
+
+    /* Instantly drop heavy dark visual panels to clean space clutter */
+    .image-section.premium-erp-panel {
+        display: none !important;
+    }
+
+    /* Right core interaction panel spans full bounds smoothly */
+    .login-container.premium-form-container {
+        width: 100%;
+        min-height: 100vh;
+        padding: 30px 20px;
+        align-items: center;
+        background: #ffffff;
+    }
+
+    .premium-box {
+        max-width: 100%;
+        border: none !important; /* Flat layout execution strategy on micro screens */
+        box-shadow: none !important;
+        padding: 1rem 0.5rem !important;
+    }
+}

@@ -1,0 +1,587 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
+
+/* ==========================================================================
+   RM / GRN / DC Form Pages — compact ERP card layout
+   ========================================================================== */
+
+.rm-page-wrapper {
+  min-height: calc(100vh - var(--erp-topbar-height, 45px));
+  display: flex;
+  flex-direction: column;
+  background-color: #f5f5f5;
+  font-family: 'Montserrat', sans-serif;
+  overflow-x: clip;
+}
+
+.rm-content-container {
+  flex: 1;
+  padding: 8px;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.rm-header-section {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.rm-page-wrapper .back-btn,
+.rm-page-wrapper .back-btn-styled,
+.rm-page-wrapper .erp-back-btn {
+  background-color: #fff;
+  color: #475569;
+  border: 1px solid #cbd5e1;
+  padding: 0;
+  width: 28px;
+  height: 28px;
+  min-width: 28px;
+  min-height: 28px;
+  border-radius: 6px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  flex-shrink: 0;
+  gap: 0;
+  font-weight: 600;
+  box-shadow: none;
+}
+
+.rm-page-wrapper .back-btn:hover,
+.rm-page-wrapper .back-btn-styled:hover,
+.rm-page-wrapper .erp-back-btn:hover {
+  background-color: #0f172a;
+  color: #ffffff;
+  border-color: #0f172a;
+}
+
+.form-title,
+.rm-page-wrapper .erp-page-title {
+  margin: 0;
+  font-size: 17px;
+  color: #0f172a !important;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.rm-main-card {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.06);
+  padding: 16px;
+  border: none;
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 12px;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #e2e8f0;
+  align-items: end;
+}
+
+.info-item label {
+  display: block;
+  font-size: 12px;
+  text-transform: none;
+  letter-spacing: 0;
+  font-weight: 600;
+  color: #475569;
+  margin-bottom: 4px;
+}
+
+.rm-input-field,
+.rm-page-wrapper .rm-main-card input:not([type="checkbox"]),
+.rm-page-wrapper .rm-main-card select {
+  width: 100%;
+  padding: 6px 10px;
+  min-height: 36px;
+  height: 36px;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  background: #fff;
+  font-size: 12px;
+  font-family: inherit;
+  box-sizing: border-box;
+}
+
+.rm-input-field:focus,
+.rm-page-wrapper .rm-main-card input:focus,
+.rm-page-wrapper .rm-main-card select:focus {
+  border-color: #1a73e8;
+  box-shadow: 0 0 0 2px rgba(26, 115, 232, 0.12);
+  outline: none;
+}
+
+.readonly-input {
+  background: #f1f5f9 !important;
+}
+
+/* ==========================================================================
+   Compact react-select (Supplier / Material searchable dropdowns)
+   Fixes bulky height that breaks form row alignment
+   ========================================================================== */
+
+/* Reset padding/border on Select outer wrapper (className="rm-input-field") */
+.rm-page-wrapper .rm-main-card .rm-input-field:has(.react-select__control) {
+  padding: 0 !important;
+  min-height: 0 !important;
+  height: auto !important;
+  border: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.rm-page-wrapper .react-select__control {
+  min-height: 36px !important;
+  height: 36px !important;
+  border: 1px solid #e2e8f0 !important;
+  border-radius: 6px !important;
+  box-shadow: none !important;
+  background: #fff !important;
+  font-size: 12px !important;
+  font-family: inherit;
+}
+
+.rm-page-wrapper .react-select__control--is-focused {
+  border-color: #1a73e8 !important;
+  box-shadow: 0 0 0 2px rgba(26, 115, 232, 0.12) !important;
+}
+
+.rm-page-wrapper .react-select__control--is-disabled {
+  background: #f1f5f9 !important;
+}
+
+.rm-page-wrapper .react-select__value-container {
+  padding: 0 8px !important;
+  height: 34px;
+  display: flex;
+  align-items: center;
+}
+
+.rm-page-wrapper .react-select__input-container {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.rm-page-wrapper .react-select__input {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.rm-page-wrapper .react-select__placeholder,
+.rm-page-wrapper .react-select__single-value {
+  font-size: 12px;
+  margin: 0;
+  line-height: 1.2;
+  color: #334155;
+}
+
+.rm-page-wrapper .react-select__placeholder {
+  color: #94a3b8;
+}
+
+.rm-page-wrapper .react-select__indicators {
+  height: 34px;
+}
+
+.rm-page-wrapper .react-select__indicator {
+  padding: 4px 6px !important;
+  color: #94a3b8;
+}
+
+.rm-page-wrapper .react-select__indicator-separator {
+  display: none;
+}
+
+.rm-page-wrapper .react-select__dropdown-indicator svg,
+.rm-page-wrapper .react-select__clear-indicator svg {
+  width: 14px;
+  height: 14px;
+}
+
+.rm-page-wrapper .react-select__menu {
+  font-size: 12px;
+  z-index: 20;
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.rm-page-wrapper .react-select__menu-list {
+  max-height: 280px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+.rm-page-wrapper .react-select__option {
+  padding: 6px 10px;
+  font-size: 12px;
+}
+
+.rm-page-wrapper .react-select__option--is-focused {
+  background: #eff6ff;
+}
+
+.rm-page-wrapper .react-select__option--is-selected {
+  background: #1a73e8;
+}
+
+/* Select + quick-add button row */
+.rm-page-wrapper .info-item > div,
+.rm-page-wrapper .item-row > div {
+  min-width: 0;
+}
+
+.rm-page-wrapper .info-item > div:has(> .quick-add-btn),
+.rm-page-wrapper .item-row > div:has(> .quick-add-btn) {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+}
+
+.rm-page-wrapper .info-item > div:has(> .quick-add-btn) > div:first-child,
+.rm-page-wrapper .item-row > div:has(> .quick-add-btn) > div:first-child {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.rm-page-wrapper .item-row > div.erp-col-stack {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 2px;
+}
+
+.rm-page-wrapper .quick-add-btn {
+  width: 36px;
+  height: 36px;
+  min-width: 36px;
+  min-height: 36px;
+}
+
+/* Line-item table (grid rows) — horizontal scroll only on small screens */
+.rm-items-scroll {
+  width: 100%;
+  overflow-x: visible;
+  overflow-y: visible;
+  margin-bottom: 12px;
+}
+
+.erp-loader {
+  text-align: center;
+  padding: 32px 16px;
+  font-size: 14px;
+  color: #64748b;
+}
+
+/* Mobile shop: Qty + row Total hidden → Model | Brand | Unit Price | Action */
+.items-table-header {
+  display: grid;
+  grid-template-columns: 2.5fr 1fr 1fr 0.5fr;
+  gap: 8px;
+  padding: 6px 8px;
+  background: #f1f5f9;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 12px;
+  color: #475569;
+  margin-bottom: 8px;
+}
+
+.item-row {
+  display: grid;
+  grid-template-columns: 2.5fr 1fr 1fr 0.5fr;
+  gap: 8px;
+  margin-bottom: 6px;
+  align-items: center !important;
+}
+
+.item-row > div {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.item-row > div[style*="flex-direction: column"],
+.item-row > div.erp-col-stack {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 2px;
+}
+
+.item-row .erp-row-actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 0 !important;
+  align-self: center;
+}
+
+.item-row .rm-input-field,
+.item-row input,
+.item-row select {
+  min-height: 36px;
+  height: 36px;
+  padding: 6px 8px;
+  font-size: 12px;
+}
+
+/* Buttons */
+.quick-add-btn {
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  border-radius: 6px;
+  padding: 0;
+  min-width: 36px;
+  min-height: 36px;
+  width: 36px;
+  height: 36px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #1a73e8;
+  flex-shrink: 0;
+}
+
+.quick-add-btn:hover {
+  background: #dbeafe;
+}
+
+.quick-add-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.save-btn,
+.save-btn-main {
+  background-color: #10b981;
+  color: white;
+  border: none;
+  padding: 8px 18px;
+  min-height: 36px;
+  height: 36px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 13px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(16, 185, 129, 0.2);
+}
+
+.save-btn:hover,
+.save-btn-main:hover {
+  background-color: #059669;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+  transform: translateY(-1px);
+}
+
+.save-btn:active,
+.save-btn-main:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(16, 185, 129, 0.2);
+}
+
+.save-btn:disabled,
+.save-btn-main:disabled {
+  background-color: #94a3b8;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+}
+
+.erp-form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 12px;
+  flex-wrap: wrap;
+}
+
+.erp-form-actions .save-btn,
+.erp-form-actions .save-btn-main {
+  width: auto;
+  min-width: 130px;
+  margin-top: 0;
+}
+
+/* Summary Section */
+.summary-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  margin-top: 12px;
+  gap: 6px;
+}
+
+.summary-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 280px;
+  justify-content: space-between;
+  font-size: 13px;
+}
+
+.grand-total-box {
+  background: #eff6ff;
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid #bfdbfe;
+  margin-top: 6px;
+  font-size: 13px;
+}
+
+.grand-total-box b {
+  color: #1a73e8;
+  font-size: 15px;
+}
+
+/* Modals */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+  padding: 16px;
+}
+
+.modal-box,
+.modal-content {
+  background: white;
+  padding: 16px;
+  border-radius: 10px;
+  width: 100%;
+  max-width: 420px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+/* Modal footer buttons — do NOT reuse .quick-add-btn (that is a 36×36 + icon) */
+.modal-actions,
+.modal-footer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 16px;
+  flex-wrap: wrap;
+}
+
+.modal-actions .save-btn,
+.modal-footer .save-btn {
+  width: auto;
+  min-width: 120px;
+  flex: 0 0 auto;
+  margin: 0;
+}
+
+.modal-cancel-btn,
+.modal-actions .quick-add-btn,
+.modal-footer .quick-add-btn {
+  width: auto !important;
+  min-width: 96px !important;
+  height: 36px !important;
+  min-height: 36px !important;
+  padding: 0 16px !important;
+  border-radius: 8px !important;
+  font-weight: 600;
+  font-size: 13px;
+  color: #475569 !important;
+  background: #f8fafc !important;
+  border: 1px solid #cbd5e1 !important;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex: 0 0 auto;
+  margin: 0;
+}
+
+.modal-cancel-btn:hover,
+.modal-actions .quick-add-btn:hover,
+.modal-footer .quick-add-btn:hover {
+  background: #f1f5f9 !important;
+  color: #0f172a !important;
+}
+
+@media (max-width: 1279px) {
+  .info-grid {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .rm-content-container {
+    padding: 8px;
+  }
+
+  .rm-main-card {
+    padding: 12px;
+  }
+
+  .info-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .rm-page-wrapper .back-btn,
+  .rm-page-wrapper .erp-back-btn {
+    width: 36px;
+    height: 36px;
+    min-width: 36px;
+    min-height: 36px;
+  }
+
+  .erp-form-actions {
+    flex-direction: column;
+  }
+
+  .erp-form-actions .save-btn,
+  .erp-form-actions .save-btn-main {
+    width: 100%;
+    min-height: 44px;
+  }
+
+  .rm-items-scroll {
+    overflow-x: auto;
+    overflow-y: clip;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .items-table-header,
+  .item-row {
+    min-width: 640px;
+  }
+
+  .items-table-header {
+    display: grid;
+  }
+
+  .item-row {
+    grid-template-columns: 2.5fr 1fr 1fr 0.5fr;
+    border: none;
+    padding: 0;
+    margin-bottom: 6px;
+  }
+
+  .item-row > div:first-child {
+    grid-column: auto;
+  }
+}

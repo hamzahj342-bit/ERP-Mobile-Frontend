@@ -1,0 +1,494 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
+
+/* Shared compact ERP list shell for Recipe / Production / Batch / FP Stock */
+.page-wrapper {
+  font-family: 'Montserrat', sans-serif;
+  background-color: #f5f5f5;
+  min-height: calc(100vh - var(--erp-topbar-height, 45px));
+  overflow-x: clip;
+}
+
+.recipe-wrapper,
+.prod-list-wrapper,
+.batch-list-wrapper,
+.stock-page-wrapper {
+  background-color: #f5f5f5;
+  min-height: calc(100vh - var(--erp-topbar-height, 45px));
+  padding: 8px;
+}
+
+.recipe-container,
+.prod-container,
+.batch-container,
+.stock-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.erp-page-card,
+.recipe-table-card,
+.prod-card,
+.batch-card,
+.stock-card {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.06);
+  padding: 12px;
+  border: none;
+}
+
+.erp-page-header,
+.recipe-header,
+.prod-header,
+.batch-header-area {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+
+.erp-page-header-left,
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  flex: 1;
+}
+
+.erp-page-title,
+.recipe-header h2,
+.prod-header h2,
+.batch-header-area h2,
+.prod-header h2 {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 700;
+  color: #0f172a;
+  line-height: 1.2;
+}
+
+.recipe-wrapper .back-btn,
+.prod-list-wrapper .back-btn,
+.batch-list-wrapper .back-btn,
+.stock-page-wrapper .back-btn,
+.erp-back-btn {
+  background-color: #fff;
+  color: #475569;
+  border: 1px solid #cbd5e1;
+  padding: 0;
+  width: 28px;
+  height: 28px;
+  min-width: 28px;
+  min-height: 28px;
+  border-radius: 6px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  flex-shrink: 0;
+}
+
+.recipe-wrapper .back-btn:hover,
+.prod-list-wrapper .back-btn:hover,
+.batch-list-wrapper .back-btn:hover,
+.stock-page-wrapper .back-btn:hover {
+  background-color: #0f172a;
+  color: #fff;
+  border-color: #0f172a;
+}
+
+.add-sale-btn,
+.erp-btn-primary,
+.btn-add,
+.recipe-add-btn {
+  background-color: #334155;
+  color: #fff;
+  border: none;
+  padding: 5px 12px;
+  min-height: 30px;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 12px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  white-space: nowrap;
+}
+
+.add-sale-btn:hover,
+.erp-btn-primary:hover,
+.btn-add:hover,
+.recipe-add-btn:hover {
+  background-color: #1e293b;
+}
+
+.erp-search-bar,
+.search-wrapper,
+.search-box-wrapper {
+  position: relative;
+  margin-bottom: 8px;
+  max-width: 360px;
+}
+
+.search-icon-inside {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #94a3b8;
+  font-size: 12px;
+  pointer-events: none;
+}
+
+.search-box-wrapper .stock-search-input,
+.search-box-wrapper .erp-search-input {
+  padding-left: 28px;
+}
+
+.erp-search-input,
+.search-input,
+.stock-search-input {
+  width: 100%;
+  padding: 5px 10px;
+  min-height: 32px;
+  height: 32px;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  font-size: 12px;
+  box-sizing: border-box;
+  background: #fff;
+}
+
+.erp-search-input:focus,
+.search-input:focus,
+.stock-search-input:focus {
+  border-color: #1a73e8;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(26, 115, 232, 0.12);
+}
+
+.erp-table-scroll,
+.table-responsive,
+.prod-table-container {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.recipe-table,
+.prod-table,
+.batch-table,
+.stock-table,
+.stock-table-responsive,
+.entity-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+  line-height: 1.3;
+  min-width: 640px;
+}
+
+.recipe-table th,
+.prod-table th,
+.batch-table th,
+.stock-table th,
+.stock-table-responsive th {
+  background: #f1f5f9;
+  padding: 5px 10px;
+  text-align: left;
+  font-size: 12px;
+  font-weight: 600;
+  color: #475569;
+  border-bottom: 1px solid #e2e8f0;
+  white-space: nowrap;
+}
+
+.recipe-table td,
+.prod-table td,
+.batch-table td,
+.stock-table td,
+.stock-table-responsive td {
+  padding: 4px 10px;
+  border-bottom: 1px solid #f1f5f9;
+  font-size: 12px;
+  vertical-align: middle;
+  color: #334155;
+}
+
+.recipe-table tbody tr:hover,
+.prod-table tbody tr:hover,
+.batch-table tbody tr:hover,
+.stock-table tbody tr:hover,
+.stock-table-responsive tbody tr:hover {
+  background: #f8fafc;
+}
+
+.btn-table-edit,
+.btn-table-delete {
+  padding: 3px 7px;
+  min-height: 24px;
+  height: 24px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  cursor: pointer;
+  border: none;
+  line-height: 1;
+}
+
+.btn-table-edit {
+  background: #ff9800;
+  color: #fff;
+}
+
+.btn-table-delete {
+  background: #f44336;
+  color: #fff;
+}
+
+.batch-id-tag {
+  font-weight: 600;
+  color: #1a73e8;
+  font-size: 12px;
+}
+
+.erp-actions-cell {
+  text-align: right;
+  white-space: nowrap;
+}
+
+.erp-actions-group,
+.action-btns {
+  display: inline-flex;
+  gap: 4px;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.edit-btn-action,
+.delete-btn,
+.primary-btn {
+  padding: 3px 7px;
+  min-height: 24px;
+  height: 24px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  cursor: pointer;
+  border: none;
+  line-height: 1;
+}
+
+.edit-btn-action {
+  background: #ff9800;
+  color: #fff;
+}
+
+.delete-btn {
+  background: #f44336;
+  color: #fff;
+}
+
+.primary-btn {
+  background: #fff;
+  color: #334155;
+  border: 1px solid #cbd5e1;
+}
+
+.erp-pagination-wrap {
+  margin-top: 8px;
+  display: flex;
+  justify-content: center;
+}
+
+.erp-empty-cell {
+  text-align: center;
+  padding: 16px 10px !important;
+  color: #888;
+}
+
+.stock-qty-bold {
+  font-weight: 700;
+  color: #15803d;
+}
+
+.sold-text {
+  color: #dc2626;
+  font-weight: 600;
+}
+
+.consumed-text {
+  color: #b45309;
+  font-weight: 600;
+}
+
+.stock-label {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.stock-positive {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.stock-zero {
+  background: #f1f5f9;
+  color: #64748b;
+}
+
+.uom-badge,
+.status-badge {
+  font-size: 10px;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-weight: 600;
+  display: inline-block;
+}
+
+.uom-badge {
+  background: #f1f5f9;
+  color: #475569;
+}
+
+@media (max-width: 768px) {
+  .recipe-wrapper,
+  .prod-list-wrapper,
+  .batch-list-wrapper,
+  .stock-page-wrapper {
+    padding: 8px;
+  }
+
+  .erp-page-header,
+  .recipe-header,
+  .prod-header,
+  .batch-header-area {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .add-sale-btn,
+  .erp-btn-primary,
+  .btn-add,
+  .recipe-add-btn {
+    width: 100%;
+    min-height: 40px;
+    justify-content: center;
+  }
+
+  .back-btn,
+  .erp-back-btn {
+    width: 36px !important;
+    height: 36px !important;
+    min-width: 36px !important;
+    min-height: 36px !important;
+  }
+
+  .recipe-table thead,
+  .prod-table thead,
+  .batch-table thead,
+  .stock-table thead,
+  .stock-table-responsive thead {
+    display: none;
+  }
+
+  .recipe-table,
+  .recipe-table tbody,
+  .recipe-table tr,
+  .recipe-table td,
+  .prod-table,
+  .prod-table tbody,
+  .prod-table tr,
+  .prod-table td,
+  .batch-table,
+  .batch-table tbody,
+  .batch-table tr,
+  .batch-table td,
+  .stock-table,
+  .stock-table tbody,
+  .stock-table tr,
+  .stock-table td,
+  .stock-table-responsive,
+  .stock-table-responsive tbody,
+  .stock-table-responsive tr,
+  .stock-table-responsive td {
+    display: block;
+    width: 100%;
+    min-width: 0;
+  }
+
+  .recipe-table tr,
+  .prod-table tr,
+  .batch-table tr,
+  .stock-table tr,
+  .stock-table-responsive tr {
+    margin-bottom: 10px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .recipe-table td,
+  .prod-table td,
+  .batch-table td,
+  .stock-table td,
+  .stock-table-responsive td {
+    text-align: right;
+    padding: 8px 12px 8px 50%;
+    position: relative;
+  }
+
+  .recipe-table td::before,
+  .prod-table td::before,
+  .batch-table td::before,
+  .stock-table td::before,
+  .stock-table-responsive td::before {
+    content: attr(data-label);
+    position: absolute;
+    left: 12px;
+    width: 45%;
+    text-align: left;
+    font-weight: 600;
+    color: #1a73e8;
+    font-size: 11px;
+  }
+
+  .erp-actions-cell::before,
+  td[data-label="Actions"]::before,
+  td[data-label="ACTION"]::before {
+    display: none;
+  }
+
+  .erp-actions-cell,
+  td[data-label="Actions"],
+  td[data-label="ACTION"] {
+    text-align: center;
+    padding-left: 12px;
+    background: #f8fafc;
+  }
+
+  .edit-btn-action,
+  .delete-btn,
+  .primary-btn,
+  .btn-table-edit,
+  .btn-table-delete {
+    min-height: 36px;
+    height: 36px;
+    padding: 6px 10px;
+    font-size: 12px;
+  }
+}

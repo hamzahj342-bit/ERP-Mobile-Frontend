@@ -1,0 +1,627 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
+
+/* ==========================================================================
+   ERP Entity List / Invoice Pages (Customers, Suppliers, Employees, Invoices)
+   ========================================================================== */
+
+.erp-entity-page {
+  font-family: 'Montserrat', sans-serif;
+  background-color: #f5f5f5;
+  min-height: calc(100vh - var(--erp-topbar-height, 45px));
+  padding: 8px;
+  max-width: 100%;
+  overflow-x: clip;
+  box-sizing: border-box;
+}
+
+.erp-page-toolbar {
+  max-width: 1200px;
+  margin: 0 auto 4px;
+}
+
+.erp-page-card {
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.06);
+  padding: 12px;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+/* Legacy alias — same as erp-entity-page */
+.table-container {
+  font-family: 'Montserrat', sans-serif;
+  background-color: #f5f5f5;
+  min-height: calc(100vh - var(--erp-topbar-height, 45px));
+  padding: 8px;
+  max-width: 100%;
+  overflow-x: clip;
+  box-sizing: border-box;
+}
+
+.table-wrapper {
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.06);
+  padding: 12px;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+/* Page header row */
+.erp-page-header,
+.header-flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+
+.erp-page-header-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  flex: 1;
+}
+
+.erp-page-title,
+.header-flex h2 {
+  font-size: 17px;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.erp-page-subtitle {
+  margin: 4px 0 0;
+  font-size: 13px;
+  color: #666;
+}
+
+.erp-page-subtitle b {
+  color: #333;
+}
+
+.erp-header-icon {
+  color: #475569;
+  flex-shrink: 0;
+}
+
+/* Primary action button */
+.add-cust-sup,
+.erp-btn-primary {
+  background-color: #334155;
+  color: #ffffff;
+  padding: 5px 12px;
+  min-height: 30px;
+  border-radius: 6px;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.add-cust-sup:hover,
+.erp-btn-primary:hover {
+  background-color: #1e293b;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.2);
+}
+
+/* Compact back — scoped so global back-btn.css does not win */
+.erp-entity-page .back-btn,
+.erp-entity-page .erp-back-btn {
+  background-color: #fff;
+  color: #475569;
+  border: 1px solid #cbd5e1;
+  padding: 0;
+  width: 28px;
+  height: 28px;
+  min-width: 28px;
+  min-height: 28px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.2s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  flex-shrink: 0;
+}
+
+.erp-entity-page .back-btn:hover,
+.erp-entity-page .erp-back-btn:hover {
+  background-color: #0f172a;
+  color: #ffffff;
+  border-color: #0f172a;
+}
+
+.back-btn {
+  background-color: #fff;
+  color: #475569;
+  border: 1px solid #cbd5e1;
+  padding: 0;
+  width: 28px;
+  height: 28px;
+  min-width: 28px;
+  min-height: 28px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.2s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+}
+
+.back-btn:hover {
+  background-color: #0f172a;
+  color: #ffffff;
+  border-color: #0f172a;
+}
+
+/* Search bar */
+.erp-search-bar,
+.search-container {
+  position: relative;
+  margin-bottom: 8px;
+}
+
+.erp-search-icon {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #94a3b8;
+  font-size: 12px;
+  pointer-events: none;
+}
+
+.erp-search-input,
+.search-container .input {
+  width: 100%;
+  padding: 5px 10px 5px 32px;
+  min-height: 32px;
+  border-radius: 6px;
+  border: 1px solid #e2e8f0;
+  font-size: 12px;
+  margin-bottom: 0;
+  box-sizing: border-box;
+  background: #fff;
+}
+
+.erp-search-input:focus,
+.search-container .input:focus {
+  border-color: #1a73e8;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(26, 115, 232, 0.12);
+}
+
+/* Table scroll wrapper */
+.erp-table-scroll {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin-bottom: 8px;
+}
+
+.erp-table-scroll .entity-table {
+  min-width: 640px;
+}
+
+/* Tables — dense ERP rows */
+.entity-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+  line-height: 1.3;
+}
+
+.entity-table thead th {
+  background-color: #f1f5f9;
+  color: #475569;
+  padding: 5px 10px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 12px;
+  border-bottom: 1px solid #e2e8f0;
+  white-space: nowrap;
+}
+
+.entity-table tbody td {
+  padding: 4px 10px;
+  border-bottom: 1px solid #f1f5f9;
+  color: #334155;
+  font-size: 12px;
+  vertical-align: middle;
+}
+
+.entity-table tbody tr:hover {
+  background-color: #f8fafc;
+}
+
+.entity-table tbody tr:nth-child(even) {
+  background-color: #fcfdfe;
+}
+
+.entity-table tbody tr:nth-child(even):hover {
+  background-color: #f1f8ff;
+}
+
+.erp-actions-cell {
+  text-align: right;
+  white-space: nowrap;
+}
+
+.erp-actions-group {
+  display: inline-flex;
+  flex-wrap: nowrap;
+  gap: 4px;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+/* Compact action buttons — override global primary-btn / edit-btn styles */
+.erp-entity-page .primary-btn {
+  padding: 3px 7px;
+  min-height: 24px;
+  height: 24px;
+  border-radius: 4px;
+  border: 1px solid #cbd5e1;
+  background: #ffffff;
+  color: #334155;
+  font-weight: 600;
+  font-size: 11px;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  cursor: pointer;
+  transition: all 0.2s;
+  line-height: 1;
+}
+
+.erp-entity-page .primary-btn:hover {
+  border-color: #1a73e8;
+  color: #1a73e8;
+  background: #f0f7ff;
+}
+
+.erp-entity-page .edit-btn-action {
+  background-color: #ff9800;
+  color: #ffffff;
+  border: none;
+  padding: 3px 7px;
+  min-height: 24px;
+  height: 24px;
+  border-radius: 4px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 11px;
+  font-weight: 600;
+  transition: 0.2s;
+  line-height: 1;
+}
+
+.erp-entity-page .edit-btn-action:hover {
+  background-color: #f57c00;
+}
+
+.erp-entity-page .edit-btn {
+  background-color: #1a73e8;
+  color: #ffffff;
+  border: none;
+  padding: 3px 7px;
+  min-height: 24px;
+  height: 24px;
+  border-radius: 4px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 11px;
+  font-weight: 600;
+  transition: 0.2s;
+  line-height: 1;
+}
+
+.erp-entity-page .edit-btn:hover {
+  background-color: #155ab6;
+}
+
+.erp-entity-page .delete-btn {
+  background-color: #f44336;
+  color: #ffffff;
+  border: none;
+  padding: 3px 7px;
+  min-height: 24px;
+  height: 24px;
+  border-radius: 4px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 11px;
+  font-weight: 600;
+  transition: 0.2s;
+  line-height: 1;
+}
+
+.erp-entity-page .delete-btn:hover {
+  background-color: #d32f2f;
+}
+
+/* Section titles (invoice pages) */
+.erp-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: #2c3e50;
+  padding-left: 12px;
+  margin: 0 0 12px;
+  border-left: 4px solid #1a73e8;
+}
+
+.erp-section-title--orange {
+  border-left-color: #ff9800;
+}
+
+.erp-section-block {
+  margin-bottom: 24px;
+}
+
+.erp-section-block:last-child {
+  margin-bottom: 0;
+}
+
+.erp-empty-cell {
+  text-align: center;
+  padding: 24px 12px !important;
+  color: #888;
+}
+
+.erp-loader {
+  text-align: center;
+  padding: 32px 16px;
+  font-size: 14px;
+  color: #64748b;
+}
+
+/* Form inputs in modals */
+.input {
+  padding: 8px 12px;
+  min-height: 40px;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  font-size: 13px;
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 8px;
+  font-family: inherit;
+}
+
+.input:focus {
+  border-color: #1a73e8;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(26, 115, 232, 0.12);
+}
+
+/* Modal */
+.erp-modal-overlay,
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.45);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+  padding: 16px;
+}
+
+.erp-modal-content,
+.modal-content {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 10px;
+  width: 100%;
+  max-width: 420px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+.erp-modal-content h3,
+.modal-content h3 {
+  margin: 0 0 16px;
+  font-size: 17px;
+  font-weight: 700;
+  color: #1a73e8;
+}
+
+.erp-modal-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+  flex-wrap: wrap;
+}
+
+.erp-modal-actions .add-cust-sup,
+.erp-modal-actions .delete-btn {
+  flex: 1;
+  min-width: 120px;
+  justify-content: center;
+}
+
+.erp-modal-actions .delete-btn {
+  background-color: #64748b;
+}
+
+.erp-modal-actions .delete-btn:hover {
+  background-color: #475569;
+}
+
+/* Pagination wrapper */
+.erp-pagination-wrap {
+  margin-top: 8px;
+  display: flex;
+  justify-content: center;
+}
+
+.erp-pagination-wrap .pagination-container {
+  margin-top: 0;
+  gap: 4px;
+}
+
+.erp-pagination-wrap .page-btn {
+  min-width: 28px;
+  height: 28px;
+  padding: 4px 8px;
+  font-size: 12px;
+}
+
+.erp-pagination-wrap .pagination-goto {
+  height: 28px;
+  padding: 0 8px;
+  font-size: 12px;
+}
+
+.erp-pagination-wrap .pagination-goto label {
+  font-size: 12px;
+}
+
+.erp-pagination-wrap .pagination-goto input {
+  width: 48px;
+  height: 28px;
+  font-size: 13px;
+}
+
+/* Tablet */
+@media (max-width: 1279px) and (min-width: 769px) {
+  .erp-page-header,
+  .header-flex {
+    gap: 12px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .erp-entity-page,
+  .table-container {
+    padding: 8px;
+  }
+
+  .erp-page-card,
+  .table-wrapper {
+    padding: 10px;
+  }
+
+  .erp-page-header,
+  .header-flex {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .erp-page-header-left {
+    width: 100%;
+  }
+
+  .erp-entity-page .back-btn,
+  .erp-entity-page .erp-back-btn {
+    width: 36px;
+    height: 36px;
+    min-width: 36px;
+    min-height: 36px;
+  }
+
+  .add-cust-sup,
+  .erp-btn-primary {
+    width: 100%;
+    min-height: 40px;
+  }
+
+  .erp-entity-page .primary-btn,
+  .erp-entity-page .edit-btn-action,
+  .erp-entity-page .edit-btn,
+  .erp-entity-page .delete-btn {
+    min-height: 36px;
+    height: 36px;
+    padding: 6px 10px;
+    font-size: 12px;
+  }
+
+  .erp-header-icon {
+    display: none;
+  }
+
+  .entity-table thead {
+    display: none;
+  }
+
+  .entity-table,
+  .entity-table tbody,
+  .entity-table tr,
+  .entity-table td {
+    display: block;
+    width: 100%;
+    min-width: 0;
+  }
+
+  .entity-table tr {
+    margin-bottom: 12px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #fff;
+  }
+
+  .entity-table td {
+    text-align: right;
+    padding: 10px 12px 10px 50%;
+    position: relative;
+    border-bottom: 1px solid #f1f5f9;
+  }
+
+  .entity-table td::before {
+    content: attr(data-label);
+    position: absolute;
+    left: 12px;
+    width: 45%;
+    text-align: left;
+    font-weight: 600;
+    color: #1a73e8;
+    font-size: 12px;
+  }
+
+  .entity-table td.erp-actions-cell,
+  .entity-table td:last-child {
+    text-align: center;
+    padding-left: 12px;
+    background: #f8fafc;
+  }
+
+  .entity-table td.erp-actions-cell::before,
+  .entity-table td:last-child::before {
+    display: none;
+  }
+
+  .erp-actions-group {
+    justify-content: center;
+    width: 100%;
+  }
+
+  .erp-table-scroll .entity-table {
+    min-width: 0;
+  }
+}

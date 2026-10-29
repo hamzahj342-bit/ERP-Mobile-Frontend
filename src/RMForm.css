@@ -1,0 +1,481 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
+
+/* ==========================================================================
+   RM Transaction List Pages — compact ERP (Purchase, Sale, Return, GRN, DC)
+   ========================================================================== */
+
+.rm-page {
+  font-family: 'Montserrat', sans-serif;
+  background-color: #f5f5f5;
+  min-height: calc(100vh - var(--erp-topbar-height, 45px));
+  padding: 8px;
+  max-width: 100%;
+  overflow-x: clip;
+  box-sizing: border-box;
+}
+
+.rm-page .card,
+.rm-page .erp-page-card {
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 12px;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.06);
+  max-width: 1400px;
+  margin: 0 auto;
+  width: 100%;
+  border: none;
+}
+
+.rm-page .card-header,
+.rm-page .erp-page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+
+.rm-page .erp-page-header-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  flex: 1;
+}
+
+.rm-page .card h3,
+.rm-page .erp-page-title {
+  font-size: 17px;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+  line-height: 1.2;
+  letter-spacing: 0;
+}
+
+.rm-page .back-btn,
+.rm-page .erp-back-btn {
+  background-color: #fff;
+  color: #475569;
+  border: 1px solid #cbd5e1;
+  padding: 0;
+  width: 28px;
+  height: 28px;
+  min-width: 28px;
+  min-height: 28px;
+  border-radius: 6px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  flex-shrink: 0;
+  gap: 0;
+  font-weight: 600;
+}
+
+.rm-page .back-btn:hover,
+.rm-page .erp-back-btn:hover {
+  background-color: #0f172a;
+  color: #ffffff;
+  border-color: #0f172a;
+}
+
+.rm-page .add-sale-btn,
+.rm-page .erp-btn-primary {
+  padding: 5px 12px;
+  min-height: 30px;
+  border-radius: 6px;
+  border: none;
+  background: #334155;
+  color: #fff;
+  font-weight: 600;
+  font-size: 12px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  box-shadow: none;
+  transition: background 0.2s;
+  text-transform: none;
+}
+
+.rm-page .add-sale-btn:hover,
+.rm-page .erp-btn-primary:hover {
+  background: #1e293b;
+  transform: none;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.2);
+}
+
+/* Search row inside list card */
+.rm-page .erp-search-bar,
+.rm-page .search-container {
+  position: relative;
+  margin-bottom: 8px;
+}
+
+.rm-page .erp-search-input,
+.rm-page .search-container .input {
+  width: 100%;
+  padding: 5px 10px 5px 32px;
+  min-height: 32px;
+  border-radius: 6px;
+  border: 1px solid #e2e8f0;
+  font-size: 12px;
+  box-sizing: border-box;
+}
+
+/* Table scroll wrapper */
+.rm-page .erp-table-scroll {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin-bottom: 8px;
+}
+
+.rm-page .product-table,
+.rm-page .entity-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 900px;
+  font-size: 12px;
+  line-height: 1.3;
+}
+
+.rm-page .product-table th,
+.rm-page .entity-table th {
+  background-color: #f1f5f9;
+  padding: 5px 10px;
+  text-align: left;
+  font-size: 12px;
+  text-transform: none;
+  color: #475569;
+  font-weight: 600;
+  border-bottom: 1px solid #e2e8f0;
+  white-space: nowrap;
+}
+
+.rm-page .product-table td,
+.rm-page .entity-table td {
+  padding: 4px 10px;
+  border-bottom: 1px solid #f1f5f9;
+  font-size: 12px;
+  color: #334155;
+  vertical-align: middle;
+}
+
+.rm-page .product-table tr:hover,
+.rm-page .entity-table tbody tr:hover {
+  background-color: #f8fafc;
+}
+
+.rm-page .product-table tbody tr:nth-child(even),
+.rm-page .entity-table tbody tr:nth-child(even) {
+  background-color: #fcfdfe;
+}
+
+.rm-page .erp-actions-cell {
+  text-align: right;
+  white-space: nowrap;
+}
+
+.rm-page .erp-actions-group {
+  display: inline-flex;
+  flex-wrap: nowrap;
+  gap: 4px;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+/* Compact action buttons in RM lists */
+.rm-page .primary-btn {
+  padding: 3px 7px;
+  min-height: 24px;
+  height: 24px;
+  border-radius: 4px;
+  border: 1px solid #cbd5e1;
+  background: #ffffff;
+  color: #334155;
+  font-weight: 600;
+  font-size: 11px;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.rm-page .primary-btn:hover {
+  border-color: #1a73e8;
+  color: #1a73e8;
+  background: #f0f7ff;
+}
+
+.rm-page .edit-btn-action {
+  background-color: #ff9800;
+  color: #ffffff;
+  border: none;
+  padding: 3px 7px;
+  min-height: 24px;
+  height: 24px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.rm-page .edit-btn-action:hover {
+  background-color: #f57c00;
+}
+
+.rm-page .approve-btn-action {
+  background-color: #16a34a;
+  color: #ffffff;
+  border: none;
+  padding: 3px 7px;
+  min-height: 24px;
+  height: 24px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.rm-page .approve-btn-action:hover {
+  background-color: #15803d;
+}
+
+.rm-page .approved-text-btn {
+  background-color: #e8f5e9;
+  color: #15803d;
+  border: 1px solid #86efac;
+  padding: 3px 7px;
+  min-height: 24px;
+  height: 24px;
+  border-radius: 12px;
+  font-size: 10px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  cursor: not-allowed;
+  line-height: 1;
+}
+
+.rm-page .delete-btn {
+  background-color: #f44336;
+  color: #ffffff;
+  border: none;
+  padding: 3px 7px;
+  min-height: 24px;
+  height: 24px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.rm-page .delete-btn:hover {
+  background-color: #d32f2f;
+}
+
+/* Utility tags */
+.invoice-no {
+  color: #1a73e8;
+  font-weight: 700;
+}
+
+.grand-total-cell {
+  font-weight: 700;
+  color: #0f172a;
+  font-size: 12px;
+}
+
+.user-tag,
+.supplier-tag {
+  background: #e2e8f0;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #475569;
+  display: inline-block;
+}
+
+/* Status pill badges */
+.rm-page .status-badge {
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 10px;
+  font-weight: 600;
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.rm-page .status-draft {
+  background-color: #fee2e2;
+  color: #dc2626;
+  border: 1px solid #fca5a5;
+}
+
+.rm-page .status-approved {
+  background-color: #dcfce7;
+  color: #15803d;
+  border: 1px solid #86efac;
+}
+
+/* Payment status — compact pills */
+.rm-page .payment-status-btn {
+  padding: 2px 8px;
+  min-height: 22px;
+  border-radius: 12px;
+  font-size: 10px;
+  font-weight: 600;
+  gap: 4px;
+  box-shadow: none;
+  text-transform: capitalize;
+}
+
+.rm-page .payment-status-btn:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+.rm-page .payment-status-btn svg {
+  font-size: 10px;
+}
+
+.rm-page .erp-pagination-wrap {
+  margin-top: 8px;
+  display: flex;
+  justify-content: center;
+}
+
+.rm-page .erp-pagination-wrap .page-btn {
+  min-width: 28px;
+  height: 28px;
+  font-size: 12px;
+}
+
+.rm-page .erp-empty-cell {
+  text-align: center;
+  padding: 16px 10px !important;
+  color: #888;
+}
+
+/* Mobile card rows */
+@media (max-width: 768px) {
+  .rm-page {
+    padding: 8px;
+  }
+
+  .rm-page .card {
+    padding: 10px;
+  }
+
+  .rm-page .card-header,
+  .rm-page .erp-page-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .rm-page .add-sale-btn,
+  .rm-page .erp-btn-primary {
+    width: 100%;
+    min-height: 40px;
+    justify-content: center;
+  }
+
+  .rm-page .back-btn,
+  .rm-page .erp-back-btn {
+    width: 36px;
+    height: 36px;
+    min-width: 36px;
+    min-height: 36px;
+  }
+
+  .rm-page .product-table thead,
+  .rm-page .entity-table thead {
+    display: none;
+  }
+
+  .rm-page .product-table,
+  .rm-page .product-table tbody,
+  .rm-page .product-table tr,
+  .rm-page .product-table td,
+  .rm-page .entity-table,
+  .rm-page .entity-table tbody,
+  .rm-page .entity-table tr,
+  .rm-page .entity-table td {
+    display: block;
+    width: 100%;
+    min-width: 0;
+  }
+
+  .rm-page .product-table tr,
+  .rm-page .entity-table tr {
+    margin-bottom: 10px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .rm-page .product-table td,
+  .rm-page .entity-table td {
+    text-align: right;
+    padding: 8px 12px 8px 50%;
+    position: relative;
+  }
+
+  .rm-page .product-table td::before,
+  .rm-page .entity-table td::before {
+    content: attr(data-label);
+    position: absolute;
+    left: 12px;
+    width: 45%;
+    text-align: left;
+    font-weight: 600;
+    color: #1a73e8;
+    font-size: 11px;
+  }
+
+  .rm-page .product-table td.erp-actions-cell::before,
+  .rm-page .entity-table td.erp-actions-cell::before {
+    display: none;
+  }
+
+  .rm-page .product-table td.erp-actions-cell,
+  .rm-page .entity-table td.erp-actions-cell {
+    text-align: center;
+    padding-left: 12px;
+    background: #f8fafc;
+  }
+
+  .rm-page .primary-btn,
+  .rm-page .edit-btn-action,
+  .rm-page .approve-btn-action,
+  .rm-page .delete-btn {
+    min-height: 36px;
+    height: 36px;
+    padding: 6px 10px;
+    font-size: 12px;
+  }
+
+  .rm-page .erp-table-scroll .product-table,
+  .rm-page .erp-table-scroll .entity-table {
+    min-width: 0;
+  }
+}

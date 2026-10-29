@@ -1,0 +1,89 @@
+/* 🌐 Font */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap');
+
+/* 🧾 Form Container */
+.form {
+  background: white;
+  padding: 30px;
+  border-radius: 16px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+  margin-bottom: 30px;
+  font-family: 'Montserrat', sans-serif;
+  max-width: 600px;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 30px;
+}
+
+/* 🏷️ Form Heading */
+.form h3 {
+  font-size: 1.6rem;
+  margin-bottom: 25px;
+  font-weight: 700;
+  text-align: center;
+  color: #1a73e8;
+}
+
+/* 📝 Input + Select */
+.form input,
+.form  {
+  width: 100%;
+  padding: 12px 16px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  font-size: 1rem;
+  background-color: #f9f9f9;
+  font-family: inherit;
+  transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+/* 🔵 Focus Effect */
+.form input:focus,
+.form select:focus {
+  border-color: #1a73e8;
+  background-color: #fff;
+  outline: none;
+}
+/* select{
+  padding: 12px 16px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  font-size: 1rem;
+  background-color: #f9f9f9;
+  font-family: inherit;
+  transition: border-color 0.3s ease, background-color 0.3s ease;
+} */
+.add-btn{
+  border-radius: 8px;
+  border: none;
+  background-color: #1a73e8; 
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  max-width: 30%;
+  height: 46px;
+  margin-right: 13px;
+}
+.add-btn:hover{
+  background-color: #155ab6;
+}
+.row{
+  gap: 8px;
+  display: flex;
+}
+.select-customer{
+  /* padding: 12px 16px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  font-size: 1rem;
+  background-color: #f9f9f9;
+  font-family: inherit;
+  transition: border-color 0.3s ease, background-color 0.3s ease; */
+  margin-left: 13px;
+  border-radius: 10px;
+}
