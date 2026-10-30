@@ -9,8 +9,9 @@ import Select from 'react-select';
 import '../Model.css';
 import '../Transactions.css';
 import DeviceLineFields from '../Components/DeviceLineFields';
+import ModelImeiScanBtn from '../Components/ModelImeiScanBtn';
 import InvoiceContactBlock from '../Components/InvoiceContactBlock';
-import { EMPTY_DEVICE_FIELDS, EMPTY_CONTACT_FIELDS, parseContactImages } from '../constants/mobileDeviceOptions';
+import { EMPTY_DEVICE_FIELDS, EMPTY_CONTACT_FIELDS, parseContactImages, serializeDeviceFields } from '../constants/mobileDeviceOptions';
 
 const EMPTY_ROW = {
   rm_id: "",
@@ -294,11 +295,13 @@ const RM_SaleForm = ({ channel = null }) => {
                                         rom: d.rom || "",
                                         color: d.color || "",
                                         condition: d.condition || "",
+                                        condition_percent: d.condition_percent || "",
                                         cost,
                                         label: [
                                             `IMEI ${d.imei1 || sourceDetailId}`,
                                             cost ? `Cost ${cost.toLocaleString()}` : null,
                                             d.condition || null,
+                                            d.condition_percent || null,
                                             d.color || null,
                                             d.ram || d.rom ? `${d.ram || "?"}/${d.rom || "?"}` : null,
                                         ]
@@ -318,10 +321,12 @@ const RM_SaleForm = ({ channel = null }) => {
                                         rom: d.rom || "",
                                         color: d.color || "",
                                         condition: d.condition || "",
+                                        condition_percent: d.condition_percent || "",
                                         cost: Number(d.avg_unit_cost || 0),
                                         label: [
                                             `IMEI ${d.imei1}`,
                                             d.condition || null,
+                                            d.condition_percent || null,
                                             d.color || null,
                                             d.ram || d.rom ? `${d.ram || "?"}/${d.rom || "?"}` : null,
                                         ]
@@ -360,6 +365,8 @@ const RM_SaleForm = ({ channel = null }) => {
                                 rom: d.rom || matchedPhone?.rom || "",
                                 color: d.color || matchedPhone?.color || "",
                                 condition: d.condition || matchedPhone?.condition || "",
+                                condition_percent:
+                                    d.condition_percent || matchedPhone?.condition_percent || "",
                             };
                         }));
                         setRows(mappedRows);
@@ -446,11 +453,13 @@ const RM_SaleForm = ({ channel = null }) => {
                 rom: row.rom || "",
                 color: row.color || "",
                 condition: row.condition || "",
+                condition_percent: row.condition_percent || "",
                 cost: row.purchase_cost || 0,
                 label: [
                     `IMEI ${row.imei1 || row.source_detail_id}`,
                     row.purchase_cost ? `Cost ${Number(row.purchase_cost).toLocaleString()}` : null,
                     row.condition || null,
+                    row.condition_percent || null,
                     row.color || null,
                     row.ram || row.rom ? `${row.ram || "?"}/${row.rom || "?"}` : null,
                 ]
@@ -488,11 +497,65 @@ const RM_SaleForm = ({ channel = null }) => {
             rom: unit.rom || "",
             color: unit.color || "",
             condition: unit.condition || "",
+            condition_percent: unit.condition_percent || "",
             // Sale price stays user-entered
             quantity: "1",
         };
         setRows(updated);
         calculateTotals(updated, globalDiscount, deliveryCharges, isTaxable, taxMode, taxRate);
+    };
+
+    /** Scan IMEI → auto-select model + phone unit (stock) */
+    const handleImeiModelScan = async (index, imei) => {
+        const clean = String(imei || "").trim();
+        if (!clean) return;
+        if (rows.some((r, i) => i !== index && String(r.imei1 || "").trim() === clean)) {
+            return toast.error("This IMEI is already selected on another line.");
+        }
+        try {
+            const res = await api.get("/rm-transactions/phone-by-imei", {
+                params: { imei: clean, mode: "sale" },
+            });
+            const phone = res.data;
+            const phones = await fetchAvailablePhones(phone.rm_id, phone.supplier_id);
+            let list = Array.isArray(phones) ? [...phones] : [];
+            if (!list.some((p) => String(p.source_detail_id) === String(phone.source_detail_id))) {
+                list = [phone, ...list];
+            }
+            const prevPrice = rows[index]?.unitPrice || "";
+            const priceNum = parseFloat(prevPrice) || 0;
+            const updated = [...rows];
+            updated[index] = {
+                ...EMPTY_ROW,
+                rm_id: Number(phone.rm_id),
+                rm_name: phone.rm_name || "",
+                uom_id: phone.uom_id || "",
+                uom_name: phone.uom_name || "",
+                supplier_id: String(phone.supplier_id),
+                shop_name: phone.shop_name || phone.supplier_name || "",
+                current_stock: list.length,
+                quantity: "1",
+                unitPrice: prevPrice,
+                total: priceNum > 0 ? priceNum.toFixed(2) : "",
+                pack_sizes: [],
+                factor: 1,
+                available_phones: list,
+                source_detail_id: phone.source_detail_id,
+                purchase_cost: phone.cost,
+                imei1: phone.imei1 || clean,
+                imei2: phone.imei2 || "",
+                ram: phone.ram || "",
+                rom: phone.rom || "",
+                color: phone.color || "",
+                condition: phone.condition || "",
+                condition_percent: phone.condition_percent || "",
+            };
+            setRows(updated);
+            calculateTotals(updated, globalDiscount, deliveryCharges, isTaxable, taxMode, taxRate);
+            toast.success(`Selected ${phone.rm_name || "phone"} — IMEI ${phone.imei1 || clean}`);
+        } catch (err) {
+            toast.error(err.response?.data?.message || "IMEI not found in available stock.");
+        }
     };
 
     // UOM change on a line: qty/price are re-interpreted in the new UOM
@@ -705,12 +768,7 @@ const RM_SaleForm = ({ channel = null }) => {
                 supplier_id: Number(r.supplier_id),
                 date,
                 entity_customer_id: selectedCustomer,
-                imei1: r.imei1,
-                imei2: r.imei2 || null,
-                ram: r.ram || null,
-                rom: r.rom || null,
-                color: r.color || null,
-                condition: r.condition || null,
+                ...serializeDeviceFields(r),
                 source_detail_id:
                     r.source_detail_id && !String(r.source_detail_id).startsWith("draft-")
                         ? Number(r.source_detail_id)
@@ -820,6 +878,8 @@ const RM_SaleForm = ({ channel = null }) => {
                                 <div className="item-row" key={index} style={{ display: 'grid', gridTemplateColumns: '3.5fr 1.2fr 1.5fr 1fr', gap: '12px', alignItems: 'center', marginBottom: '12px' }}>
                                     
                                     <div className="erp-col-stack" style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                                        <div style={{ display: 'flex', gap: '8px', alignItems: 'center', width: '100%' }}>
+                                        <div style={{ flex: 1, minWidth: 0 }}>
                                         <Select
                                             className="rm-input-field"
                                             classNamePrefix="react-select"
@@ -831,6 +891,13 @@ const RM_SaleForm = ({ channel = null }) => {
                                             isDisabled={!!selectedSourceDoc}
                                             placeholder="Select model / supplier"
                                         />
+                                        </div>
+                                        <ModelImeiScanBtn
+                                            disabled={!!selectedSourceDoc}
+                                            onScanned={(imei) => handleImeiModelScan(index, imei)}
+                                            title="Scan IMEI — auto select model & phone"
+                                        />
+                                        </div>
                                         {row.rm_id && (
                                             <small className='text-success' style={{ fontSize: '12px', paddingLeft: '4px', marginTop: '2px' }}>
                                                 In stock: {phoneOptionsForRow(row, index).length || Number(row.current_stock) || 0} phone(s)

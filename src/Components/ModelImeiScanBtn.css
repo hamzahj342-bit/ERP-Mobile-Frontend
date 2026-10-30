@@ -1,0 +1,54 @@
+.model-imei-scan {
+  position: relative;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+}
+
+.model-imei-scan-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  background: #f1f5f9;
+  color: #0f172a;
+  cursor: pointer;
+  padding: 0;
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+.model-imei-scan-btn:hover:not(:disabled) {
+  background: #0f766e;
+  border-color: #0f766e;
+  color: #fff;
+}
+
+.model-imei-scan-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.model-imei-scan.is-scanning .model-imei-scan-btn {
+  background: #0f766e;
+  border-color: #0f766e;
+  color: #fff;
+  box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.2);
+}
+
+.model-imei-scan-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+  border: 0;
+  padding: 0;
+  margin: 0;
+}
+
+.model-imei-scan.is-scanning .model-imei-scan-input {
+  pointer-events: auto;
+}

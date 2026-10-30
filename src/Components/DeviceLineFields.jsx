@@ -1,10 +1,12 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { FaBarcode } from "react-icons/fa";
 import { toast } from "react-toastify";
 import {
   RAM_OPTIONS,
   ROM_OPTIONS,
   CONDITION_OPTIONS,
+  CONDITION_PERCENT_OPTIONS,
+  isIphoneBrand,
 } from "../constants/mobileDeviceOptions";
 import "./DeviceLineFields.css";
 
@@ -18,9 +20,18 @@ import "./DeviceLineFields.css";
 const DeviceLineFields = ({ row, index, onChange, disabled = false, fieldsLocked = false }) => {
   const set = (field, value) => onChange(index, field, value);
   const lock = disabled || fieldsLocked;
+  const hideRam = isIphoneBrand(row.uom_name);
   const imei1Ref = useRef(null);
   const imei2Ref = useRef(null);
   const [scanTarget, setScanTarget] = useState(null);
+
+  // iPhone brand → clear RAM (not used)
+  useEffect(() => {
+    if (hideRam && row.ram) {
+      set("ram", "");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- only react to brand / ram
+  }, [hideRam, row.ram]);
 
   const startScan = (field) => {
     if (lock) return;
@@ -31,8 +42,8 @@ const DeviceLineFields = ({ row, index, onChange, disabled = false, fieldsLocked
       ref.current?.focus();
       ref.current?.select?.();
     });
-    toast.info(field === "imei1" ? "Scan IMEI 1 now…" : "Scan IMEI 2 now…", {
-      autoClose: 2500,
+    toast.info(field === "imei1" ? "Scan IMEI 1…" : "Scan IMEI 2…", {
+      autoClose: 2000,
     });
   };
 
@@ -46,7 +57,6 @@ const DeviceLineFields = ({ row, index, onChange, disabled = false, fieldsLocked
   };
 
   const handleImeiKeyDown = (e, field) => {
-    // Hardware scanners send digits then Enter
     if (e.key === "Enter") {
       e.preventDefault();
       e.stopPropagation();
@@ -55,28 +65,17 @@ const DeviceLineFields = ({ row, index, onChange, disabled = false, fieldsLocked
   };
 
   const handleImeiChange = (e, field) => {
-    // Strip accidental whitespace mid-scan; keep digits/letters as scanned
     set(field, e.target.value.replace(/\s+/g, ""));
   };
 
   const handleImeiBlur = () => {
-    // Leave scan highlight shortly after leaving field
     setTimeout(() => setScanTarget(null), 150);
   };
 
   return (
-    <div className="device-line-fields">
-      {fieldsLocked ? (
-        <p className="device-line-hint">
-          Device specs filled from selected stock unit (IMEI). Enter sale price above.
-        </p>
-      ) : (
-        <p className="device-line-hint">
-          Type IMEI or click <strong>Scan</strong> and use a USB barcode / IMEI scanner.
-        </p>
-      )}
+    <div className={`device-line-fields${hideRam ? " no-ram" : ""}`}>
       <div className="device-line-grid">
-        <div className="device-field">
+        <div className="device-field device-field-imei">
           <label>
             IMEI 1 <span className="req">*</span>
           </label>
@@ -87,28 +86,29 @@ const DeviceLineFields = ({ row, index, onChange, disabled = false, fieldsLocked
               inputMode="numeric"
               autoComplete="off"
               className="rm-input-field imei-scan-input"
-              placeholder={scanTarget === "imei1" ? "Ready — scan now…" : "IMEI 1 or scan"}
+              placeholder={scanTarget === "imei1" ? "Scan…" : ""}
               value={row.imei1 || ""}
               onChange={(e) => handleImeiChange(e, "imei1")}
               onKeyDown={(e) => handleImeiKeyDown(e, "imei1")}
               onBlur={handleImeiBlur}
               disabled={lock}
               required
+              maxLength={20}
+              size={17}
             />
             {!lock ? (
               <button
                 type="button"
                 className="imei-scan-btn"
-                title="Scan with barcode / IMEI scanner"
+                title="Scan IMEI"
                 onClick={() => startScan("imei1")}
               >
                 <FaBarcode />
-                <span>Scan</span>
               </button>
             ) : null}
           </div>
         </div>
-        <div className="device-field">
+        <div className="device-field device-field-imei">
           <label>IMEI 2</label>
           <div className={`imei-scan-wrap ${scanTarget === "imei2" ? "scanning" : ""}`}>
             <input
@@ -117,42 +117,45 @@ const DeviceLineFields = ({ row, index, onChange, disabled = false, fieldsLocked
               inputMode="numeric"
               autoComplete="off"
               className="rm-input-field imei-scan-input"
-              placeholder={scanTarget === "imei2" ? "Ready — scan now…" : "Optional / scan"}
+              placeholder={scanTarget === "imei2" ? "Scan…" : ""}
               value={row.imei2 || ""}
               onChange={(e) => handleImeiChange(e, "imei2")}
               onKeyDown={(e) => handleImeiKeyDown(e, "imei2")}
               onBlur={handleImeiBlur}
               disabled={lock}
+              maxLength={20}
+              size={17}
             />
             {!lock ? (
               <button
                 type="button"
                 className="imei-scan-btn"
-                title="Scan with barcode / IMEI scanner"
+                title="Scan IMEI"
                 onClick={() => startScan("imei2")}
               >
                 <FaBarcode />
-                <span>Scan</span>
               </button>
             ) : null}
           </div>
         </div>
-        <div className="device-field">
-          <label>RAM</label>
-          <select
-            className="rm-input-field"
-            value={row.ram || ""}
-            onChange={(e) => set("ram", e.target.value)}
-            disabled={lock}
-          >
-            <option value="">Select RAM</option>
-            {RAM_OPTIONS.map((o) => (
-              <option key={o} value={o}>
-                {o}
-              </option>
-            ))}
-          </select>
-        </div>
+        {!hideRam ? (
+          <div className="device-field">
+            <label>RAM</label>
+            <select
+              className="rm-input-field"
+              value={row.ram || ""}
+              onChange={(e) => set("ram", e.target.value)}
+              disabled={lock}
+            >
+              <option value="">RAM</option>
+              {RAM_OPTIONS.map((o) => (
+                <option key={o} value={o}>
+                  {o}
+                </option>
+              ))}
+            </select>
+          </div>
+        ) : null}
         <div className="device-field">
           <label>ROM</label>
           <select
@@ -161,7 +164,7 @@ const DeviceLineFields = ({ row, index, onChange, disabled = false, fieldsLocked
             onChange={(e) => set("rom", e.target.value)}
             disabled={lock}
           >
-            <option value="">Select ROM</option>
+            <option value="">ROM</option>
             {ROM_OPTIONS.map((o) => (
               <option key={o} value={o}>
                 {o}
@@ -174,7 +177,7 @@ const DeviceLineFields = ({ row, index, onChange, disabled = false, fieldsLocked
           <input
             type="text"
             className="rm-input-field"
-            placeholder="e.g. Black"
+            placeholder="Color"
             value={row.color || ""}
             onChange={(e) => set("color", e.target.value)}
             disabled={lock}
@@ -188,8 +191,24 @@ const DeviceLineFields = ({ row, index, onChange, disabled = false, fieldsLocked
             onChange={(e) => set("condition", e.target.value)}
             disabled={lock}
           >
-            <option value="">Select Condition</option>
+            <option value="">Condition</option>
             {CONDITION_OPTIONS.map((o) => (
+              <option key={o} value={o}>
+                {o}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="device-field">
+          <label>% Condition</label>
+          <select
+            className="rm-input-field"
+            value={row.condition_percent || ""}
+            onChange={(e) => set("condition_percent", e.target.value)}
+            disabled={lock}
+          >
+            <option value="">%</option>
+            {CONDITION_PERCENT_OPTIONS.map((o) => (
               <option key={o} value={o}>
                 {o}
               </option>

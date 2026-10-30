@@ -9,7 +9,7 @@ import Select from 'react-select';
 import '../Model.css';
 import '../Transactions.css';
 import DeviceLineFields from '../Components/DeviceLineFields';
-import { EMPTY_DEVICE_FIELDS } from '../constants/mobileDeviceOptions';
+import { EMPTY_DEVICE_FIELDS, serializeDeviceFields } from '../constants/mobileDeviceOptions';
 
 const emptyOpeningRow = () => ({
     rm_id: "",
@@ -127,6 +127,7 @@ const RM_OpeningStockForm = () => {
                                 rom: d.rom || "",
                                 color: d.color || "",
                                 condition: d.condition || "",
+                                condition_percent: d.condition_percent || "",
                             };
                         });
                         setRows(mappedRows);
@@ -214,12 +215,7 @@ const RM_OpeningStockForm = () => {
                 uom_id: r.uom_id,
                 date,
                 entity_supplier_id: HARDCODED_STARTUP_SUPPLIER_ID,
-                imei1: r.imei1,
-                imei2: r.imei2 || null,
-                ram: r.ram || null,
-                rom: r.rom || null,
-                color: r.color || null,
-                condition: r.condition || null,
+                ...serializeDeviceFields(r),
             })),
         };
 

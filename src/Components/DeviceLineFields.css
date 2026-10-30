@@ -7,16 +7,16 @@
   margin: 4px 0 10px;
 }
 
-.device-line-hint {
-  margin: 0 0 8px;
-  font-size: 0.72rem;
-  color: #64748b;
-}
-
 .device-line-grid {
   display: grid;
-  grid-template-columns: repeat(6, minmax(0, 1fr));
+  grid-template-columns: minmax(200px, 1.8fr) minmax(200px, 1.8fr) repeat(5, minmax(100px, 1fr));
   gap: 10px;
+  align-items: end;
+}
+
+/* iPhone: no RAM → 2 IMEI + ROM + Color + Condition + % */
+.device-line-fields.no-ram .device-line-grid {
+  grid-template-columns: minmax(200px, 1.8fr) minmax(200px, 1.8fr) repeat(4, minmax(100px, 1fr));
 }
 
 .device-field label {
@@ -31,6 +31,14 @@
   color: #dc2626;
 }
 
+.device-field-imei .imei-scan-input {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.85rem;
+  letter-spacing: 0.02em;
+  min-width: 0;
+  width: 100%;
+}
+
 .imei-scan-wrap {
   display: flex;
   align-items: stretch;
@@ -40,6 +48,7 @@
   background: #fff;
   overflow: hidden;
   transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  min-width: 0;
 }
 
 .imei-scan-wrap:focus-within {
@@ -67,25 +76,22 @@
   border: none !important;
   border-radius: 0 !important;
   box-shadow: none !important;
-  flex: 1;
-  min-width: 0;
+  flex: 1 1 auto;
+  min-width: 140px;
 }
 
 .imei-scan-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 5px;
   flex-shrink: 0;
   border: none;
   border-left: 1px solid #e2e8f0;
   background: #f1f5f9;
   color: #0f172a;
-  font-size: 0.72rem;
-  font-weight: 700;
-  padding: 0 10px;
+  width: 36px;
+  padding: 0;
   cursor: pointer;
-  white-space: nowrap;
   transition: background 0.15s ease, color 0.15s ease;
 }
 
@@ -95,17 +101,34 @@
 }
 
 .imei-scan-btn svg {
-  font-size: 0.85rem;
+  font-size: 0.9rem;
 }
 
-@media (max-width: 1100px) {
-  .device-line-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+@media (max-width: 1200px) {
+  .device-line-grid,
+  .device-line-fields.no-ram .device-line-grid {
+    grid-template-columns: minmax(180px, 1fr) minmax(180px, 1fr) repeat(3, minmax(100px, 1fr));
+  }
+}
+
+@media (max-width: 900px) {
+  .device-line-grid,
+  .device-line-fields.no-ram .device-line-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .device-field-imei {
+    grid-column: span 2;
   }
 }
 
 @media (max-width: 640px) {
-  .device-line-grid {
-    grid-template-columns: 1fr 1fr;
+  .device-line-grid,
+  .device-line-fields.no-ram .device-line-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .device-field-imei {
+    grid-column: auto;
   }
 }

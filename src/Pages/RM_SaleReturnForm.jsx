@@ -8,8 +8,9 @@ import api from "../../api";
 import '../Model.css';
 import '../Transactions.css'; // Standardized CSS
 import DeviceLineFields from '../Components/DeviceLineFields';
+import ModelImeiScanBtn from '../Components/ModelImeiScanBtn';
 import InvoiceContactBlock from '../Components/InvoiceContactBlock';
-import { EMPTY_DEVICE_FIELDS, EMPTY_CONTACT_FIELDS, parseContactImages } from '../constants/mobileDeviceOptions';
+import { EMPTY_DEVICE_FIELDS, EMPTY_CONTACT_FIELDS, parseContactImages, serializeDeviceFields } from '../constants/mobileDeviceOptions';
 
 const EMPTY_RETURN_ROW = {
   rm_id: "",
@@ -185,6 +186,7 @@ const RM_SaleReturnForm = ({ channel = null }) => {
                                     rom: d.rom || "",
                                     color: d.color || "",
                                     condition: d.condition || "",
+                                    condition_percent: d.condition_percent || "",
                                 };
                             });
                             setRows(mappedRows);
@@ -320,6 +322,66 @@ const RM_SaleReturnForm = ({ channel = null }) => {
         updateGrandTotal(updatedRows, isTaxable, taxMode, taxRate);
     };
 
+    /** Scan IMEI → auto-select sold phone for this customer */
+    const handleImeiModelScan = async (index, imei) => {
+        if (!selectedCustomer) {
+            return toast.error("Select a customer first, then scan IMEI.");
+        }
+        const clean = String(imei || "").trim();
+        if (!clean) return;
+        if (rows.some((r, i) => i !== index && String(r.imei1 || "").trim() === clean)) {
+            return toast.error("This IMEI is already selected on another line.");
+        }
+        try {
+            const res = await api.get("/rm-transactions/phone-by-imei", {
+                params: {
+                    imei: clean,
+                    mode: "saleReturn",
+                    customer_id: selectedCustomer,
+                },
+            });
+            const phone = res.data;
+            const packs = phone.pack_sizes || [];
+            const matchedMat = materials.find(
+                (m) =>
+                    String(m.rm_id) === String(phone.rm_id) &&
+                    String(m.original_supplier_id) === String(phone.original_supplier_id)
+            );
+            const packSizes = matchedMat?.pack_sizes || packs;
+            const prevPrice = rows[index]?.unitPrice || "";
+            const salePrice = prevPrice || String(phone.unit_price || phone.cost || "");
+            const priceNum = parseFloat(salePrice) || 0;
+            const updated = [...rows];
+            updated[index] = {
+                ...EMPTY_RETURN_ROW,
+                rm_id: phone.rm_id,
+                rm_name: phone.rm_name || "",
+                uom_id: phone.uom_id || "",
+                uom_name: phone.uom_name || "",
+                soldQty: phone.soldQty || matchedMat?.soldQty || 1,
+                supplier_name: phone.shop_name || "",
+                original_supplier_id: phone.original_supplier_id || "",
+                pack_sizes: packSizes,
+                factor: 1,
+                quantity: "1",
+                unitPrice: salePrice,
+                total: priceNum > 0 ? priceNum.toFixed(2) : "",
+                imei1: phone.imei1 || clean,
+                imei2: phone.imei2 || "",
+                ram: phone.ram || "",
+                rom: phone.rom || "",
+                color: phone.color || "",
+                condition: phone.condition || "",
+                condition_percent: phone.condition_percent || "",
+            };
+            setRows(updated);
+            updateGrandTotal(updated, isTaxable, taxMode, taxRate);
+            toast.success(`Selected ${phone.rm_name || "phone"} — IMEI ${phone.imei1 || clean}`);
+        } catch (err) {
+            toast.error(err.response?.data?.message || "IMEI not found for this customer's sales.");
+        }
+    };
+
     const handleTaxableChange = (value) => {
         setIsTaxable(value);
         updateGrandTotal(rows, value, taxMode, taxRate);
@@ -399,12 +461,7 @@ const RM_SaleReturnForm = ({ channel = null }) => {
                 date,
                 supplier_name: r.supplier_name,
                 original_supplier_id: r.original_supplier_id,
-                imei1: r.imei1,
-                imei2: r.imei2 || null,
-                ram: r.ram || null,
-                rom: r.rom || null,
-                color: r.color || null,
-                condition: r.condition || null,
+                ...serializeDeviceFields(r),
             }))
         };
 
@@ -475,6 +532,7 @@ const RM_SaleReturnForm = ({ channel = null }) => {
                         {rows.map((row, index) => (
                             <div className="item-row" key={index}>
                                 <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                                    <div style={{ display: 'flex', gap: '8px', alignItems: 'center', width: '100%' }}>
                                     <select 
                                         className="rm-input-field" 
                                         value={row.rm_id ? `${row.rm_id}-${row.original_supplier_id}` : ""} 
@@ -499,7 +557,7 @@ const RM_SaleReturnForm = ({ channel = null }) => {
                                                 handleChange(index, "factor", Number(selectedPack?.factor_to_base) || 1);
                                             }
                                         }}
-                                        style={{ marginTop: '20px'}}
+                                        style={{ flex: 1, minWidth: 0 }}
                                     >
                                         <option value="">Select Model Name</option>
                                         {/* Always show current row's material selection if set */}
@@ -515,6 +573,12 @@ const RM_SaleReturnForm = ({ channel = null }) => {
                                             </option>
                                         ))}
                                     </select>
+                                    <ModelImeiScanBtn
+                                        disabled={!selectedCustomer}
+                                        onScanned={(imei) => handleImeiModelScan(index, imei)}
+                                        title="Scan IMEI — auto select sold phone"
+                                    />
+                                    </div>
                                     <small style={{ color: "gray", fontSize: '11px' }}>Sold: {row.soldQty}</small>
                                 </div>
 

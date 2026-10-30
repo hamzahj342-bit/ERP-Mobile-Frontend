@@ -13,6 +13,24 @@ export const ROM_OPTIONS = [
 
 export const CONDITION_OPTIONS = ["Used", "New", "Referb", "Box Pack"];
 
+/** Battery / overall condition band — 10% steps */
+export const CONDITION_PERCENT_OPTIONS = [
+  "10%",
+  "20%",
+  "30%",
+  "40%",
+  "50%",
+  "60%",
+  "70%",
+  "80%",
+  "90%",
+  "100%",
+];
+
+/** Brand (UOM name) is iPhone → RAM not applicable */
+export const isIphoneBrand = (brandOrUomName) =>
+  /iphone/i.test(String(brandOrUomName || "").trim());
+
 export const EMPTY_DEVICE_FIELDS = {
   imei1: "",
   imei2: "",
@@ -20,6 +38,21 @@ export const EMPTY_DEVICE_FIELDS = {
   rom: "",
   color: "",
   condition: "",
+  condition_percent: "",
+};
+
+/** Payload slice for purchase / sale / return / opening lines */
+export const serializeDeviceFields = (r = {}) => {
+  const iphone = isIphoneBrand(r.uom_name);
+  return {
+    imei1: r.imei1 ? String(r.imei1).trim() : null,
+    imei2: r.imei2 ? String(r.imei2).trim() : null,
+    ram: iphone ? null : r.ram || null,
+    rom: r.rom || null,
+    color: r.color || null,
+    condition: r.condition || null,
+    condition_percent: r.condition_percent || null,
+  };
 };
 
 export const MAX_CONTACT_IMAGES = 5;

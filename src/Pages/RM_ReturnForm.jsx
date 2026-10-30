@@ -7,8 +7,9 @@ import { toast } from 'react-toastify';
 import api from "../../api";
 import '../Transactions.css';
 import DeviceLineFields from '../Components/DeviceLineFields';
+import ModelImeiScanBtn from '../Components/ModelImeiScanBtn';
 import InvoiceContactBlock from '../Components/InvoiceContactBlock';
-import { EMPTY_DEVICE_FIELDS, EMPTY_CONTACT_FIELDS, parseContactImages } from '../constants/mobileDeviceOptions';
+import { EMPTY_DEVICE_FIELDS, EMPTY_CONTACT_FIELDS, parseContactImages, serializeDeviceFields } from '../constants/mobileDeviceOptions';
 
 const emptyRow = () => ({
     rm_id: "",
@@ -201,6 +202,7 @@ const RM_ReturnForm = ({ channel = null }) => {
                             rom: d.rom || "",
                             color: d.color || "",
                             condition: d.condition || "",
+                            condition_percent: d.condition_percent || "",
                         };
                     }));
                     setRows(mappedRows);
@@ -348,6 +350,60 @@ const RM_ReturnForm = ({ channel = null }) => {
         if (!isNaN(id)) await fetchStock(id, index, updatedRows);
     };
 
+    /** Scan IMEI → auto-select in-stock phone for this supplier (purchase return) */
+    const handleImeiModelScan = async (index, imei) => {
+        if (!selectedSupplier) {
+            return toast.error("Select a supplier first, then scan IMEI.");
+        }
+        const clean = String(imei || "").trim();
+        if (!clean) return;
+        if (rows.some((r, i) => i !== index && String(r.imei1 || "").trim() === clean)) {
+            return toast.error("This IMEI is already selected on another line.");
+        }
+        try {
+            const res = await api.get("/rm-transactions/phone-by-imei", {
+                params: {
+                    imei: clean,
+                    mode: "purchaseReturn",
+                    supplier_id: selectedSupplier,
+                },
+            });
+            const phone = res.data;
+            const matchedMat = materials.find((m) => Number(m.rm_id) === Number(phone.rm_id));
+            const packSizes = normalizePackSizes(matchedMat);
+            const prevPrice = rows[index]?.unitPrice || "";
+            const costPrice = prevPrice || String(phone.cost || "");
+            const priceNum = parseFloat(costPrice) || 0;
+            let updatedRows = [...rows];
+            updatedRows[index] = {
+                ...emptyRow(),
+                rm_id: phone.rm_id,
+                rm_name: phone.rm_name || matchedMat?.rm_name || "",
+                uom_id: phone.uom_id || packSizes[0]?.uom_id || "",
+                uom_name: phone.uom_name || packSizes[0]?.uom_name || "",
+                pack_sizes: packSizes,
+                factor: 1,
+                quantity: "1",
+                unitPrice: costPrice,
+                total: priceNum > 0 ? priceNum.toFixed(2) : "",
+                stock: matchedMat ? Number(matchedMat.current_stock || 0) : 1,
+                imei1: phone.imei1 || clean,
+                imei2: phone.imei2 || "",
+                ram: phone.ram || "",
+                rom: phone.rom || "",
+                color: phone.color || "",
+                condition: phone.condition || "",
+                condition_percent: phone.condition_percent || "",
+            };
+            setRows(updatedRows);
+            updateGrandTotal(updatedRows, isTaxable, taxMode, taxRate);
+            if (phone.rm_id) await fetchStock(phone.rm_id, index, updatedRows);
+            toast.success(`Selected ${phone.rm_name || "phone"} — IMEI ${phone.imei1 || clean}`);
+        } catch (err) {
+            toast.error(err.response?.data?.message || "IMEI not found in this supplier's stock.");
+        }
+    };
+
     const updateGrandTotal = (currentRows, currentIsTaxable = isTaxable, currentTaxMode = taxMode, currentTaxRate = taxRate, discountValue = globalDiscount) => {
         const currentSubTotal = currentRows.reduce((sum, row) => sum + (parseFloat(row.total) || 0), 0);
         const discount = parseFloat(discountValue) || 0;
@@ -427,12 +483,7 @@ const RM_ReturnForm = ({ channel = null }) => {
                 total_price: r.total,
                 uom_id: r.uom_id,
                 date: date,
-                imei1: r.imei1,
-                imei2: r.imei2 || null,
-                ram: r.ram || null,
-                rom: r.rom || null,
-                color: r.color || null,
-                condition: r.condition || null,
+                ...serializeDeviceFields(r),
             }))
         };
 
@@ -506,17 +557,24 @@ const RM_ReturnForm = ({ channel = null }) => {
                         {rows.map((row, index) => (
                             <div className="item-row" key={index}>
                                 <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                    <div style={{ display: 'flex', gap: '8px', alignItems: 'center', width: '100%' }}>
                                     <select
                                         className="rm-input-field"
                                         value={row.rm_id}
                                         onChange={(e) => handleMaterialSelect(index, e.target.value)}
-                                        style={{marginTop: '20px'}}
+                                        style={{ flex: 1, minWidth: 0 }}
                                     >
                                         <option value="">Select Model Name</option>
                                         {Array.isArray(materials) && materials.map((m) => (
                                             <option key={m.rm_id} value={m.rm_id}>{m.rm_name}</option>
                                         ))}
                                     </select>
+                                    <ModelImeiScanBtn
+                                        disabled={!selectedSupplier}
+                                        onScanned={(imei) => handleImeiModelScan(index, imei)}
+                                        title="Scan IMEI — auto select phone to return"
+                                    />
+                                    </div>
                                     <small style={{ marginTop: '4px', fontSize: '11px', fontWeight: 'bold' }} className="text-success">
                                         Available: {row.stock} base units
                                     </small>

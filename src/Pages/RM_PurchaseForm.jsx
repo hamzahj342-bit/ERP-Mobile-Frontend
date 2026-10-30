@@ -10,7 +10,7 @@ import '../Model.css';
 import '../Transactions.css';
 import DeviceLineFields from '../Components/DeviceLineFields';
 import InvoiceContactBlock from '../Components/InvoiceContactBlock';
-import { EMPTY_DEVICE_FIELDS, EMPTY_CONTACT_FIELDS, parseContactImages } from '../constants/mobileDeviceOptions';
+import { EMPTY_DEVICE_FIELDS, EMPTY_CONTACT_FIELDS, parseContactImages, serializeDeviceFields } from '../constants/mobileDeviceOptions';
 
 const emptyPurchaseRow = () => ({
     rm_id: "",
@@ -275,6 +275,7 @@ const [newMaterialUom, setNewMaterialUom] = useState("");
                                 rom: d.rom || "",
                                 color: d.color || "",
                                 condition: d.condition || "",
+                                condition_percent: d.condition_percent || "",
                             };
                         });
                         setRows(mappedRows);
@@ -472,12 +473,7 @@ const [newMaterialUom, setNewMaterialUom] = useState("");
                 uom_id: r.uom_id,
                 date,
                 entity_supplier_id: selectedSupplier,
-                imei1: r.imei1,
-                imei2: r.imei2 || null,
-                ram: r.ram || null,
-                rom: r.rom || null,
-                color: r.color || null,
-                condition: r.condition || null,
+                ...serializeDeviceFields(r),
                 // POS: update the product's selling price alongside the purchase
                 ...(isPos && r.salePrice !== "" && r.salePrice != null
                     ? { new_sale_price: parseFloat(r.salePrice) }

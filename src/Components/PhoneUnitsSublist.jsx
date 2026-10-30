@@ -27,6 +27,7 @@ const PhoneUnitsSublist = ({
                   <th>IMEI 2</th>
                   <th>Cost</th>
                   <th>Condition</th>
+                  <th>%</th>
                   <th>Color</th>
                   <th>RAM</th>
                   <th>ROM</th>
@@ -41,6 +42,7 @@ const PhoneUnitsSublist = ({
                     <td className="mono">{u.imei2 || "—"}</td>
                     <td>{Number(u.cost || 0).toLocaleString()}</td>
                     <td>{u.condition || "—"}</td>
+                    <td>{u.condition_percent || "—"}</td>
                     <td>{u.color || "—"}</td>
                     <td>{u.ram || "—"}</td>
                     <td>{u.rom || "—"}</td>
