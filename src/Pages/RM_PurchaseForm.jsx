@@ -69,6 +69,9 @@ const RM_PurchaseForm = ({ channel = null }) => {
     // --- State Controlled Modal Variables for flawless UI Sync ---
 const [newMaterialName, setNewMaterialName] = useState("");
 const [newMaterialUom, setNewMaterialUom] = useState("");
+const [showBrandModal, setShowBrandModal] = useState(false);
+const [newBrandName, setNewBrandName] = useState("");
+const [isAddingBrand, setIsAddingBrand] = useState(false);
 
     const supplierOptions = suppliers.map((supplier) => ({ value: supplier.id, label: supplier.name }));
     const materialOptions = materials.map((material) => ({
@@ -540,11 +543,37 @@ const [newMaterialUom, setNewMaterialUom] = useState("");
         setNewMaterialName("");
         setNewMaterialUom("");
         setShowMaterialModal(false);
+        setShowBrandModal(false);
+        setNewBrandName("");
     } catch (err) { 
         console.error("Quick Material Add Error:", err);
         toast.error(err.response?.data?.message || "Failed to add material"); 
     }
 };
+
+    const handleQuickBrandAdd = async () => {
+        const name = String(newBrandName || "").trim();
+        if (!name) return toast.error("Brand name is required");
+        setIsAddingBrand(true);
+        try {
+            const res = await api.post("/uoms", { name });
+            const saved = res.data;
+            setUoms((prev) => {
+                if (prev.some((u) => Number(u.id) === Number(saved.id))) return prev;
+                return [...prev, saved].sort((a, b) =>
+                    String(a.name || "").localeCompare(String(b.name || ""))
+                );
+            });
+            setNewMaterialUom(String(saved.id));
+            setNewBrandName("");
+            setShowBrandModal(false);
+            toast.success("Brand added!");
+        } catch (err) {
+            toast.error(err.response?.data?.error || "Failed to add brand");
+        } finally {
+            setIsAddingBrand(false);
+        }
+    };
 
     return (
         <div className="rm-page-wrapper">
@@ -765,6 +794,8 @@ const [newMaterialUom, setNewMaterialUom] = useState("");
         setShowMaterialModal(false);
         setNewMaterialName("");
         setNewMaterialUom("");
+        setShowBrandModal(false);
+        setNewBrandName("");
     }}>
         <div className="modal-box" onClick={(e) => e.stopPropagation()}>
             <h3>Add New Model</h3>
@@ -780,14 +811,76 @@ const [newMaterialUom, setNewMaterialUom] = useState("");
             </div>
             <div className="form-group">
                 <label>Brand</label>
-                <select 
-                    className="rm-input-field"
-                    value={newMaterialUom}
-                    onChange={(e) => setNewMaterialUom(e.target.value)}
-                >
-                    <option value="">Select Brand</option>
-                    {uoms.map(u => <option key={u.id} value={u.id}>{u.name}</option>)}
-                </select>
+                <div className="modal-brand-row">
+                    <select 
+                        className="rm-input-field modal-brand-select"
+                        value={newMaterialUom}
+                        onChange={(e) => setNewMaterialUom(e.target.value)}
+                        disabled={showBrandModal}
+                    >
+                        <option value="">Select Brand</option>
+                        {uoms.map(u => <option key={u.id} value={u.id}>{u.name}</option>)}
+                    </select>
+                    <button
+                        type="button"
+                        className="quick-add-btn modal-brand-add-btn"
+                        title="Add Brand"
+                        onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            setShowBrandModal((open) => !open);
+                            setNewBrandName("");
+                        }}
+                    >
+                        <FaPlus />
+                    </button>
+                </div>
+                {showBrandModal && (
+                    <div className="modal-brand-inline">
+                        <label>New Brand Name</label>
+                        <input
+                            type="text"
+                            className="rm-input-field"
+                            value={newBrandName}
+                            onChange={(e) => setNewBrandName(e.target.value)}
+                            placeholder="e.g. iPhone, Samsung"
+                            autoFocus
+                            onKeyDown={(e) => {
+                                if (e.key === "Enter") {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    handleQuickBrandAdd();
+                                }
+                            }}
+                        />
+                        <div className="modal-brand-inline-actions">
+                            <button
+                                type="button"
+                                className="save-btn"
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    handleQuickBrandAdd();
+                                }}
+                                disabled={isAddingBrand}
+                            >
+                                {isAddingBrand ? "Saving…" : "Save Brand"}
+                            </button>
+                            <button
+                                type="button"
+                                className="modal-cancel-btn"
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    setShowBrandModal(false);
+                                    setNewBrandName("");
+                                }}
+                            >
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
+                )}
             </div>
             <div className="modal-actions">
                 <button type="button" className="save-btn" onClick={handleQuickMaterialAdd}>Save Model</button>
@@ -795,6 +888,8 @@ const [newMaterialUom, setNewMaterialUom] = useState("");
                     setShowMaterialModal(false);
                     setNewMaterialName("");
                     setNewMaterialUom("");
+                    setShowBrandModal(false);
+                    setNewBrandName("");
                 }}>Cancel</button>
             </div>
         </div>

@@ -472,6 +472,76 @@
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
 }
 
+/* Brand select + add button row (Add Model modal) */
+.modal-brand-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+}
+
+.modal-brand-row .modal-brand-select {
+  flex: 1 1 auto;
+  min-width: 0;
+  width: auto !important;
+  height: 36px !important;
+  min-height: 36px !important;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.modal-brand-row .modal-brand-add-btn {
+  flex: 0 0 36px;
+  width: 36px !important;
+  height: 36px !important;
+  min-width: 36px !important;
+  min-height: 36px !important;
+  margin: 0 !important;
+  align-self: center;
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  padding: 0 !important;
+  box-sizing: border-box;
+}
+
+.modal-brand-inline {
+  width: 100%;
+  margin-top: 10px;
+  padding: 10px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  box-sizing: border-box;
+}
+
+.modal-brand-inline label {
+  display: block;
+  margin-bottom: 4px;
+}
+
+.modal-brand-inline .rm-input-field {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.modal-brand-inline-actions {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+
+.modal-brand-inline-actions .save-btn {
+  width: auto;
+  min-width: 120px;
+  margin: 0;
+}
+
 /* Modal footer buttons — do NOT reuse .quick-add-btn (that is a 36×36 + icon) */
 .modal-actions,
 .modal-footer {
